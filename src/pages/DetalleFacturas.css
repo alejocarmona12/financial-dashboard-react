@@ -1,0 +1,49 @@
+.detalle {
+  min-height: 100vh;
+  background: #020617;
+  color: #f8fafc;
+  padding: 40px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.detalle h2 {
+  color: #38bdf8;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #0f172a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background: #1e293b;
+  color: #94a3b8;
+}
+
+tr:nth-child(even) {
+  background: #020617;
+}
+
+tr:hover {
+  background: #1e293b;
+}
+
+button {
+  margin-top: 30px;
+  background: #38bdf8;
+  color: #020617;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
