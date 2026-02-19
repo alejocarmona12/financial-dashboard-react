@@ -1,7 +1,7 @@
 /* Fondo SOLO para el login */
 .login-page {
   min-height: 100vh;
-  background-image: url("fondo-pantalla.jpg");
+  background-image: url("/fondo-pantalla.jpg");
   background-size: cover;
   background-position: center;
   display: flex;
