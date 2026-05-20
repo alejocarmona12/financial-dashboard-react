@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./facturacion.css";
+import "./Facturacion.css";
 interface Transaction {
   id: number;
   type: "income" | "expense";
@@ -14,7 +14,7 @@ export default function Facturacion() {
   const navigate = useNavigate();
 
   const transactions: Transaction[] = JSON.parse(
-    localStorage.getItem("transactions") || "[]"
+    localStorage.getItem("transactions") || "[]",
   );
 
   // Solo ingresos

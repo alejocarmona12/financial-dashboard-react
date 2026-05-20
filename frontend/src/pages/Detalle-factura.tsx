@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./DetalleFacturas.css";
+import "./Detalle-Facturas.css";
 
 interface Transaction {
   id: number;
@@ -15,7 +15,7 @@ export default function DetalleFacturas() {
   const navigate = useNavigate();
 
   const transactions: Transaction[] = JSON.parse(
-    localStorage.getItem("transactions") || "[]"
+    localStorage.getItem("transactions") || "[]",
   );
 
   const facturas = transactions.filter((t) => t.type === "income" && t.hasIVA);

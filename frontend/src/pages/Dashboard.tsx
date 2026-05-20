@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTransactions } from "../hooks/useTransactions";
 import { useDashboardCalculations } from "../hooks/useDashboardCalculations";
-import "./dashboard.css";
-import ProyectoEndesarrollo from "./proyecto-en-desarrolo";
+import "./Dashboard.css";
+import ProyectoEndesarrollo from "./Proyecto-en-desarrolo";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -102,7 +102,10 @@ export default function Dashboard() {
 
         {/* FORMULARIO */}
         <div className="form">
-          <select value={type} onChange={(e) => setType(e.target.value as any)}>
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value as "income" | "expense")}
+          >
             <option value="income">Ingreso</option>
             <option value="expense">Gasto</option>
           </select>
@@ -203,7 +206,11 @@ export default function Dashboard() {
                 <td>{t.category}</td>
                 <td>{formatCurrency(t.amount)}</td>
                 <td>
-                  <button onClick={() => deleteTransaction(t.id)}>🗑️</button>
+                  <button
+                    onClick={() => deleteTransaction(Number(t.id ?? t._id))}
+                  >
+                    🗑️
+                  </button>
                 </td>
               </tr>
             ))}
