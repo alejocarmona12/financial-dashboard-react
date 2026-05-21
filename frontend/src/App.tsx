@@ -1,50 +1,47 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
+import "./App.css";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Facturacion from "./pages/Facturacion";
 import DetalleFacturas from "./pages/Detalle-factura";
-import ProyectoEndesarrollo from "./pages/Proyecto-en-desarrolo";
+// import ProyectoEndesarrollo from "./pages/Proyecto-en-desarrolo";
+import Register from "./pages/Register";
 
-const isAuthenticated = () => {
-  return !!localStorage.getItem("token");
+// Componente protector dinámico que lee el almacenamiento en cada navegación
+const ProtectedRoute = () => {
+  const token = localStorage.getItem("token");
+
+  // Si hay token, permite el acceso a las subrutas hijas (Outlet). Si no, redirige.
+  return token ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* LOGIN */}
+        {/* RUTAS PÚBLICAS */}
         <Route path="/" element={<Login />} />
-
-        {/* DASHBOARD PROTEGIDO */}
+        <Route path="/register" element={<Register />} />
         <Route
-          path="/dashboard"
-          element={isAuthenticated() ? <Dashboard /> : <Navigate to="/" />}
+        // path="/proyecto-en-desarrolo"
+        // element={<ProyectoEndesarrollo />}
         />
 
-        {/* FACTURACIÓN */}
-        <Route
-          path="/facturacion"
-          element={isAuthenticated() ? <Facturacion /> : <Navigate to="/" />}
-        />
+        {/* RUTAS PROTEGIDAS (Agrupadas dentro del protector) */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/facturacion" element={<Facturacion />} />
+          <Route path="/facturas" element={<DetalleFacturas />} />
+        </Route>
 
-        {/* FACTURAS */}
-        <Route
-          path="/facturas"
-          element={
-            isAuthenticated() ? <DetalleFacturas /> : <Navigate to="/" />
-          }
-        />
-
-        {/* PROYECTO */}
-        <Route
-          path="/proyecto-en-desarrolo"
-          element={<ProyectoEndesarrollo />}
-        />
-
-        {/* DEFAULT */}
-        <Route path="*" element={<Navigate to="/" />} />
+        {/* REDIRECCIÓN POR DEFECTO */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

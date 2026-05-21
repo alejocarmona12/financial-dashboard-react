@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import "./Facturacion.css";
+import styles from "./Facturacion.module.css"; // Importación correcta como CSS Module
+
 interface Transaction {
   id: number;
   type: "income" | "expense";
@@ -13,51 +14,87 @@ interface Transaction {
 export default function Facturacion() {
   const navigate = useNavigate();
 
+  // 1. CORRECCIÓN SEGURIDAD: Identificar la clave exclusiva del usuario logueado
+  const authData = localStorage.getItem("auth");
+  let storageKey = "transactions_guest";
+
+  if (authData) {
+    try {
+      const currentUser = JSON.parse(authData);
+      if (currentUser && currentUser.email) {
+        storageKey = `transactions_${currentUser.email}`;
+      }
+    } catch (e) {
+      console.error("Error al recuperar sesión en facturación", e);
+    }
+  }
+
+  // Carga las transacciones del usuario correcto
   const transactions: Transaction[] = JSON.parse(
-    localStorage.getItem("transactions") || "[]",
+    localStorage.getItem(storageKey) || "[]",
   );
 
-  // Solo ingresos
+  // LÓGICA DE CÁLCULOS
   const ingresos = transactions.filter((t) => t.type === "income");
-
-  // Total facturado (con y sin IVA)
   const totalFacturado = ingresos.reduce((acc, t) => acc + t.amount, 0);
-
-  // Solo ingresos con IVA
   const ingresosConIVA = ingresos.filter((t) => t.hasIVA);
-
-  // IVA real a pagar
   const ivaTotal = ingresosConIVA.reduce((acc, t) => acc + t.amount * 0.21, 0);
-
   const neto = totalFacturado - ivaTotal;
 
   return (
-    <div className="facturacion">
+    <div className={styles.facturacion}>
       <h2>Facturación e IVA</h2>
 
-      <div className="cards">
-        <div className="card">
+      <div className={styles.cards}>
+        {/* Tarjeta 1: Total Facturado - Verde Neón */}
+        <div className={styles.card}>
           <h3>Total Facturado</h3>
-          <p>${totalFacturado.toFixed(2)}</p>
+          <p className={styles.textSuccess}>
+            {totalFacturado.toLocaleString("es-AR", {
+              style: "currency",
+              currency: "ARS",
+            })}
+          </p>
         </div>
 
-        <div className="card">
-          <h3>IVA (solo con factura)</h3>
-          <p>${ivaTotal.toFixed(2)}</p>
+        {/* Tarjeta 2: IVA - Rosa/Fucsia Neón */}
+        <div className={styles.card}>
+          <h3>IVA Estimado</h3>
+          <p className={styles.textDanger}>
+            {ivaTotal.toLocaleString("es-AR", {
+              style: "currency",
+              currency: "ARS",
+            })}
+          </p>
         </div>
 
-        <div className="card">
-          <h3>Neto</h3>
-          <p>${neto.toFixed(2)}</p>
+        {/* Tarjeta 3: Neto - Cyan Neón */}
+        <div className={styles.card}>
+          <h3>Monto Neto</h3>
+          <p className={styles.textInfo}>
+            {neto.toLocaleString("es-AR", {
+              style: "currency",
+              currency: "ARS",
+            })}
+          </p>
         </div>
       </div>
 
-      <button onClick={() => navigate("/dashboard")}>
-        Volver al Dashboard
-      </button>
-      <button onClick={() => navigate("/facturas")}>
-        Ver Detalle de Facturas
-      </button>
+      {/* CONTENEDOR DE ACCIONES */}
+      <div className={styles.actions}>
+        <button
+          className={styles.btnSecondary}
+          onClick={() => navigate("/dashboard")}
+        >
+          Volver al Dashboard
+        </button>
+        <button
+          className={styles.btnPrimary}
+          onClick={() => navigate("/facturas")}
+        >
+          Ver Detalle de Facturas
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,136 @@
+/* CONTENEDOR PRINCIPAL */
+.facturacion {
+  min-height: 100vh;
+  background: var(--bg-main);
+  color: var(--text-main);
+  padding: 60px 20px;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* TÍTULO EN CYAN NEÓN */
+.facturacion h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+  color: var(--primary);
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+}
+
+/* GRILLA DE TARJETAS */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 48px;
+}
+
+/* TARJETA BASE DARK */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  text-align: center;
+  border: var(--border-glow);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(189, 0, 255, 0.4);
+}
+
+.card h3 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin: 0 0 14px 0;
+}
+
+.card p {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  font-family:
+    Courier New,
+    Courier,
+    monospace;
+}
+
+/* CLASES DE COLOR EN ARMONÍA CON LAS VARIABLES NEÓN */
+.textSuccess {
+  color: var(--success) !important;
+  text-shadow: 0 0 10px rgba(5, 255, 195, 0.3);
+}
+
+.textDanger {
+  color: var(--danger) !important;
+  text-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+}
+
+.textInfo {
+  color: var(--primary) !important;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+/* CONTENEDOR DE BOTONES */
+.actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* BOTÓN PRINCIPAL (VER DETALLE) */
+.btnPrimary {
+  background: var(--primary);
+  color: #130a21;
+  border: none;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  transition: var(--transition);
+}
+
+.btnPrimary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+  transform: scale(1.03) translateY(-1px);
+}
+
+/* BOTÓN SECUNDARIO (VOLVER) */
+.btnSecondary {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid rgba(139, 127, 164, 0.4);
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btnSecondary:hover {
+  background: rgba(139, 127, 164, 0.1);
+  color: var(--text-main);
+  border-color: var(--text-muted);
+}

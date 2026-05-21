@@ -1,0 +1,30 @@
+/* RESETEO GLOBAL PARA DEJAR LA PANTALLA QUIETA */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+  /* Fondos del sistema */
+  --bg-main: #130a21; /* Morado oscuro de fondo general */
+  --bg-card: #201335; /* Morado un poco más claro para las tarjetas */
+  --bg-input: #1b102b; /* Fondo para inputs y selectores */
+
+  /* Colores de texto y acentos Neón */
+  --text-main: #ffffff;
+  --text-muted: #8b7fa4; /* Texto secundario violeta grisáceo */
+
+  --primary: #00f0ff; /* Cyan brillante para botones/enlaces */
+  --primary-hover: #00c8d5;
+  --success: #05ffc3; /* Verde neón para ingresos o estados positivos */
+  --danger: #ff007f; /* Fucsia/Rosa neón para gastos o cierres de sesión */
+  --info: #bd00ff; /* Violeta eléctrico para balances o IVA */
+
+  /* Efectos visuales */
+  --border-glow: 1px solid rgba(189, 0, 255, 0.15); /* Borde sutil violeta */
+  --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Sombra profunda */
+  --radius: 16px; /* Bordes curvos modernos */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

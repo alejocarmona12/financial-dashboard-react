@@ -1,10 +1,16 @@
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTransactions } from "../hooks/useTransactions";
 import { useDashboardCalculations } from "../hooks/useDashboardCalculations";
-import "./Dashboard.css";
-import ProyectoEndesarrollo from "./Proyecto-en-desarrolo";
+import styles from "./Dashboard.module.css";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -14,17 +20,17 @@ export default function Dashboard() {
     navigate("/");
   };
 
-  // FORM
+  // FORM STATE
   const [type, setType] = useState<"income" | "expense">("income");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [hasIVA, setHasIVA] = useState(false);
 
-  // FILTRO
+  // FILTRO STATE
   const [selectedMonth, setSelectedMonth] = useState("all");
 
-  // DATA
+  // DATA HOOKS
   const { transactions, addTransaction, deleteTransaction } = useTransactions();
 
   const {
@@ -41,6 +47,20 @@ export default function Dashboard() {
   const formatCurrency = (v: number) =>
     v.toLocaleString("es-AR", { style: "currency", currency: "ARS" });
 
+  // FUNCIÓN PARA FORMATEAR LA FECHA AUTOMÁTICA CON AJUSTE ROBUSTO
+  const formatDate = (dateString: string) => {
+    // Si la transacción no tiene fecha (historial viejo), usa la fecha de hoy para asegurar visibilidad
+    const date = dateString ? new Date(dateString) : new Date();
+
+    if (isNaN(date.getTime())) return "S/D";
+
+    return date.toLocaleDateString("es-AR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
   const handleAdd = () => {
     if (!amount || !category || Number(amount) <= 0) return;
 
@@ -50,7 +70,7 @@ export default function Dashboard() {
       amount: Number(amount),
       category,
       description,
-      date: new Date().toISOString(),
+      date: new Date().toISOString(), // Inyecta la fecha y hora del sistema automáticamente
       hasIVA,
     });
 
@@ -60,26 +80,30 @@ export default function Dashboard() {
     setHasIVA(false);
   };
 
-  const COLORS = ["#16a34a", "#dc2626", "#2563eb", "#0ea5e9"];
+  // NUEVA PALETA DE COLORES NEÓN PARA RECHARTS (Matchea las variables globales)
+  const COLORS = ["#05ffc3", "#ff007f", "#00f0ff", "#bd00ff"];
 
   return (
     <>
-      <ProyectoEndesarrollo />
-
-      <div className="dashboard">
+      <div className={styles.dashboard}>
         {/* HEADER */}
-        <div className="header">
+        <div className={styles.header}>
           <h2>Sistema de Contabilidad</h2>
-          <div className="actions">
-            <button className="logout" onClick={logout}>
+          <div className={styles.actions}>
+            <button className={styles.logout} onClick={logout}>
               Cerrar sesión
             </button>
-            <button onClick={() => navigate("/facturas")}>Ver Facturas</button>
+            <button
+              className={styles.primary}
+              onClick={() => navigate("/facturas")}
+            >
+              Ver Facturas
+            </button>
           </div>
         </div>
 
         {/* FILTRO MES */}
-        <div className="month-selector">
+        <div className={styles.monthSelector}>
           <select
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
@@ -101,7 +125,7 @@ export default function Dashboard() {
         </div>
 
         {/* FORMULARIO */}
-        <div className="form">
+        <div className={styles.form}>
           <select
             value={type}
             onChange={(e) => setType(e.target.value as "income" | "expense")}
@@ -129,7 +153,7 @@ export default function Dashboard() {
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          <label className="iva-checkbox">
+          <label className={styles.ivaCheckbox}>
             <input
               type="checkbox"
               checked={hasIVA}
@@ -142,59 +166,144 @@ export default function Dashboard() {
         </div>
 
         {/* TARJETAS */}
-        <div className="balance">
-          <div className="card income">
+        <div className={styles.balance}>
+          <div className={`${styles.card} ${styles.income}`}>
             <h3>Ingresos</h3>
             <p>{formatCurrency(incomeTotal)}</p>
           </div>
 
-          <div className="card expense">
+          <div className={`${styles.card} ${styles.expense}`}>
             <h3>Gastos</h3>
             <p>{formatCurrency(expenseTotal)}</p>
           </div>
 
-          <div className="card balance-card">
+          <div className={`${styles.card} ${styles.balanceCard}`}>
             <h3>Balance</h3>
             <p>{formatCurrency(balance)}</p>
           </div>
 
-          <div className="card iva">
+          <div className={`${styles.card} ${styles.iva}`}>
             <h3>IVA</h3>
             <p>{formatCurrency(ivaTotal)}</p>
           </div>
         </div>
 
-        <p className="insight">{insight}</p>
+        <p className={styles.insight}>{insight}</p>
 
-        {/* GRÁFICOS */}
+        {/* CONTENEDOR DE GRÁFICOS */}
         <div
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}
+          className={styles.chartsContainer}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "40px",
+            margin: "40px 0",
+          }}
         >
-          <PieChart width={400} height={400}>
-            <Pie data={expenseByCategory} dataKey="value" label>
-              {expenseByCategory.map((_, i) => (
-                <Cell key={i} fill={COLORS[i % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
+          {/* GRÁFICO 1: GASTOS POR CATEGORÍA */}
+          <div style={{ width: "100%", height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={expenseByCategory}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  label={false}
+                  labelLine={false}
+                >
+                  {expenseByCategory.map((_, i) => (
+                    <Cell
+                      key={i}
+                      fill={COLORS[i % COLORS.length]}
+                      stroke="var(--bg-card)"
+                      strokeWidth={2}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#201335",
+                    borderColor: "var(--primary)",
+                    borderRadius: "8px",
+                    color: "var(--text-main)",
+                  }}
+                  itemStyle={{ color: "#ffffff", fontWeight: "bold" }}
+                />
+                <Legend
+                  formatter={(value) => (
+                    <span
+                      style={{
+                        color: "var(--text-muted)",
+                        fontSize: "13px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {value}
+                    </span>
+                  )}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
 
-          <PieChart width={300} height={300}>
-            <Pie data={balanceData} dataKey="value" label>
-              {balanceData.map((_, i) => (
-                <Cell key={i} fill={COLORS[i]} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
+          {/* GRÁFICO 2: BALANCE GENERAL */}
+          <div style={{ width: "100%", height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={balanceData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  label={false}
+                  labelLine={false}
+                >
+                  {balanceData.map((_, i) => (
+                    <Cell
+                      key={i}
+                      fill={COLORS[i % COLORS.length]}
+                      stroke="var(--bg-card)"
+                      strokeWidth={2}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#201335",
+                    borderColor: "var(--primary)",
+                    borderRadius: "8px",
+                    color: "var(--text-main)",
+                  }}
+                  itemStyle={{ color: "#ffffff", fontWeight: "bold" }}
+                />
+                <Legend
+                  formatter={(value) => (
+                    <span
+                      style={{
+                        color: "var(--text-muted)",
+                        fontSize: "13px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {value}
+                    </span>
+                  )}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
-        {/* TABLA */}
-        <table>
+        {/* TABLA DE MOVIMIENTOS INTEGRADA CON FECHA AUTOMÁTICA */}
+        <table className={styles.table}>
           <thead>
             <tr>
+              <th>Fecha</th>
               <th>Categoría</th>
               <th>Monto</th>
               <th>Acciones</th>
@@ -203,10 +312,33 @@ export default function Dashboard() {
           <tbody>
             {filteredTransactions.map((t) => (
               <tr key={t.id}>
+                <td
+                  style={{
+                    fontFamily: "Courier New, monospace",
+                    fontWeight: 600,
+                    color: "var(--text-muted)",
+                  }}
+                >
+                  {formatDate(t.date || "")}
+                </td>
                 <td>{t.category}</td>
-                <td>{formatCurrency(t.amount)}</td>
+                <td
+                  style={{
+                    fontWeight: 700,
+                    color:
+                      t.type === "income" ? "var(--success)" : "var(--danger)",
+                  }}
+                >
+                  {formatCurrency(t.amount)}
+                </td>
                 <td>
                   <button
+                    className={styles.logout}
+                    style={{
+                      padding: "6px 12px",
+                      fontSize: "14px",
+                      marginTop: 0,
+                    }}
                     onClick={() => deleteTransaction(Number(t.id ?? t._id))}
                   >
                     🗑️

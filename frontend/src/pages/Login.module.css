@@ -1,0 +1,153 @@
+/* C/* CONTENEDOR PRINCIPAL CON FILTRO DE COBERTURA COMPLETA */
+.authWrapper {
+  min-height: 100vh;
+  width: 100vw; /* Asegura el ancho completo del viewport */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+
+  /* Usamos un color plano semi-transparente en vez de gradiente para unificar los tonos oscuros */
+  background-image:
+    linear-gradient(rgba(20, 15, 38, 0.73), rgba(20, 15, 38, 0.73)),
+    url("/fondo-pantalla.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Mantiene el fondo estático e impide desfases */
+}
+
+/* TARJETA DEL FORMULARIO */
+.authCard {
+  background: var(--bg-card);
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border: var(--border-glow);
+}
+
+/* ENCABEZADO */
+.authHeader {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.authHeader h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary); /* Cyan Neón */
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.authHeader p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* GRUPOS DE ENTRADA (LABELS) */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #a79bbd; /* Violeta claro para alta legibilidad */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* INPUTS TOTALMENTE VISIBLES Y ESTILIZADOS */
+.formGroup input {
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--bg-input);
+  border: 1px solid rgba(189, 0, 255, 0.3); /* Borde sutil de inicio */
+  color: var(--text-main); /* Texto blanco al escribir */
+  font-size: 14px;
+  outline: none;
+  transition: var(--transition);
+}
+
+.formGroup input::placeholder {
+  color: rgba(139, 127, 164, 0.6); /* Placeholder visible */
+}
+
+.formGroup input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.3);
+  background: rgba(27, 16, 43, 0.9);
+}
+
+/* BOTÓN PRINCIPAL (INGRESAR) */
+.btnAuth {
+  width: 100%;
+  background: var(--primary);
+  color: #130a21;
+  border: none;
+  padding: 14px;
+  border-radius: var(--radius);
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+  transition: var(--transition);
+  margin-top: 12px;
+}
+
+.btnAuth:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.7);
+  transform: translateY(-1px);
+}
+
+/* PIE DEL FORMULARIO */
+.authFooter {
+  margin-top: 32px;
+  text-align: center;
+  border-top: 1px dashed rgba(139, 127, 164, 0.2);
+  padding-top: 24px;
+}
+
+.authFooter p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0 0 14px 0;
+}
+
+/* BOTÓN SECUNDARIO (CREAR CUENTA) */
+.btnSecondary {
+  background: transparent;
+  color: var(--info);
+  border: 1px solid var(--info);
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(189, 0, 255, 0.2);
+  transition: var(--transition);
+}
+
+.btnSecondary:hover {
+  background: rgba(189, 0, 255, 0.15);
+  box-shadow: 0 0 18px rgba(189, 0, 255, 0.5);
+  transform: translateY(-1px);
+}

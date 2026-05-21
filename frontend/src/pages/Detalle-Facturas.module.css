@@ -1,0 +1,106 @@
+/* CONTENEDOR PRINCIPAL */
+.detalle {
+  min-height: 100vh;
+  background: var(--bg-main);
+  color: var(--text-main);
+  padding: 60px 24px;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* TÍTULO EN CYAN NEÓN */
+.detalle h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 32px;
+  color: var(--primary);
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  text-align: center;
+}
+
+/* TEXTO CUANDO NO HAY REGISTROS */
+.noData {
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 40px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* TABLA DE FACTURAS CYBERPUNK */
+.table {
+  width: 100%;
+  max-width: 1100px;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: var(--border-glow);
+  margin-bottom: 40px;
+}
+
+.table th,
+.table td {
+  padding: 18px 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ENCABEZADOS DE LA GRILLA */
+.table th {
+  background: rgba(32, 19, 53, 0.7);
+  color: var(--primary); /* Cyan neón para los títulos de columnas */
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  border-bottom: 2px solid rgba(189, 0, 255, 0.2);
+}
+
+/* FILAS INTERCALADAS (ZEBRAS DARK) */
+.table tr:nth-child(even) {
+  background: rgba(27, 16, 43, 0.4);
+}
+
+/* FILA AL PASAR EL MOUSE */
+.table tr:hover td {
+  background: rgba(189, 0, 255, 0.05);
+  transition: var(--transition);
+}
+
+.table td {
+  color: var(--text-main);
+  border-bottom: 1px solid rgba(139, 127, 164, 0.1);
+}
+
+/* BOTÓN DE RETORNO (VIOLETA ELÉCTRICO) */
+.button {
+  background: transparent;
+  color: var(--info);
+  border: 1px solid rgba(189, 0, 255, 0.5);
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(189, 0, 255, 0.2);
+  transition: var(--transition);
+}
+
+.button:hover {
+  background: rgba(189, 0, 255, 0.12);
+  border-color: var(--info);
+  box-shadow: 0 0 18px rgba(189, 0, 255, 0.5);
+  transform: translateY(-2px);
+}
