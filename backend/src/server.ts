@@ -22,7 +22,7 @@ app.use(
 );
 
 // CORRECCIÓN EXPRESS 5: Sintaxis correcta con paréntesis para comodín global
-app.options("(.*)", cors());
+app.options("(*)", cors());
 
 app.use(express.json());
 
