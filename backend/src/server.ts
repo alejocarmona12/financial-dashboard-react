@@ -11,18 +11,29 @@ console.log(process.env.MONGO_URI);
 
 const app = express();   
 
-// 1. CONFIGURACIÓN DE CORS
+// 1. CONFIGURACIÓN BASE DE CORS
 app.use(
   cors({
-    origin: "*", 
+    origin: "*", // Permite el acceso libre desde tu dominio de Netlify
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
 
-// Único comodín global válido con paréntesis
-app.options("(.*)", cors());
+// 2. FUNCIÓN DE MIDDLEWARE TRADICIONAL PARA RESPONDER A PREFLIGHT (Solución definitiva para Express 5)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  
+  // Si la petición es un chequeo previo (OPTIONS), respondemos directo con un estado 200 sin pasar por el enrutador
+  if (req.method === "OPTIONS") {
+    res.sendStatus(200);
+    return;
+  }
+  next();
+});
 
 app.use(express.json());
 
