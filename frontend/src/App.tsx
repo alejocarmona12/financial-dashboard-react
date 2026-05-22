@@ -10,7 +10,6 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Facturacion from "./pages/Facturacion";
 import DetalleFacturas from "./pages/Detalle-factura";
-// import ProyectoEndesarrollo from "./pages/Proyecto-en-desarrolo";
 import Register from "./pages/Register";
 
 // Componente protector dinámico que lee el almacenamiento en cada navegación
@@ -28,10 +27,7 @@ function App() {
         {/* RUTAS PÚBLICAS */}
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route
-        // path="/proyecto-en-desarrolo"
-        // element={<ProyectoEndesarrollo />}
-        />
+        <Route />
 
         {/* RUTAS PROTEGIDAS (Agrupadas dentro del protector) */}
         <Route element={<ProtectedRoute />}>
