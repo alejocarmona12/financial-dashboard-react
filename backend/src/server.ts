@@ -21,7 +21,7 @@ app.use(
   })
 );
 
-// CORRECCIÓN EXPRESS 5: Único comodín global válido con paréntesis
+// Único comodín global válido con paréntesis
 app.options("(.*)", cors());
 
 app.use(express.json());
