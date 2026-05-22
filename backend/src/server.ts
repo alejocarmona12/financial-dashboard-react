@@ -11,18 +11,18 @@ console.log(process.env.MONGO_URI);
 
 const app = express();   
 
-// 1. CONFIGURACIÓN ROBUSTA DE CORS PARA PRODUCCIÓN
+// 1. CONFIGURACIÓN ROBUSTA DE CORS PARA PRODUCCIÓN 
 app.use(
   cors({
-    origin: "*", // Permite el acceso libre desde dominio de Netlify
+    origin: "*", // Permite el acceso libre desde tu dominio de Netlify
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
 
-// Responder de forma obligatoria a las peticiones previas de control (Preflight Requests)
-app.options("*", cors());
+// CORRECCIÓN EXPRESS 5: Sintaxis correcta con paréntesis para comodín global
+app.options("(.*)", cors());
 
 app.use(express.json());
 
