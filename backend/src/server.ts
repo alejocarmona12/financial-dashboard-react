@@ -14,7 +14,7 @@ const app = express();
 // 1. CONFIGURACIÓN ROBUSTA DE CORS PARA PRODUCCIÓN
 app.use(
   cors({
-    origin: "*", // Permite el acceso libre desde tu dominio de Netlify
+    origin: "*", // Permite el acceso libre desde dominio de Netlify
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
