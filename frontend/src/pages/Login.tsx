@@ -52,9 +52,7 @@ const Login = () => {
               placeholder="tu@email.com"
               value={email}
               required
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -66,9 +64,7 @@ const Login = () => {
               placeholder="••••••••"
               value={password}
               required
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
