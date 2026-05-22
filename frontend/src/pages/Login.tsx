@@ -36,6 +36,7 @@ const Login = () => {
   };
 
   return (
+    // Reemplazamos la etiqueta <a> por un <div> común para el contenedor principal
     <div className={styles.authWrapper}>
       <div className={styles.authCard}>
         <div className={styles.authHeader}>
