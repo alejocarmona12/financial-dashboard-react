@@ -10,7 +10,10 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault(); // Detiene la recarga de la página
+
+    // Alerta de control: si no sale este cartel, el HTML está bloqueando la función
+    alert("Intentando conectar con el servidor...");
 
     try {
       const response = await api.post("/auth/login", {
@@ -18,13 +21,12 @@ const Login = () => {
         password,
       });
 
-      // 1. Guardamos el token para las peticiones HTTP
+      // Guardamos credenciales
       localStorage.setItem("token", response.data.token);
-
-      // 2. CORRECCIÓN CLAVE: Guardamos el estado de auth con el email para separar las transacciones
       const sessionData = { email: email, token: response.data.token };
       localStorage.setItem("auth", JSON.stringify(sessionData));
 
+      // Navegamos al panel principal
       navigate("/dashboard");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -36,7 +38,6 @@ const Login = () => {
   };
 
   return (
-    // Reemplazamos la etiqueta <a> por un <div> común para el contenedor principal
     <div className={styles.authWrapper}>
       <div className={styles.authCard}>
         <div className={styles.authHeader}>
@@ -44,6 +45,7 @@ const Login = () => {
           <p>Ingresá al panel de control financiero</p>
         </div>
 
+        {/* El evento onSubmit DEBE estar estrictamente en la etiqueta form */}
         <form onSubmit={handleLogin}>
           <div className={styles.formGroup}>
             <label htmlFor="email">Correo Electrónico</label>
@@ -53,7 +55,9 @@ const Login = () => {
               placeholder="tu@email.com"
               value={email}
               required
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
             />
           </div>
 
@@ -65,10 +69,13 @@ const Login = () => {
               placeholder="••••••••"
               value={password}
               required
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
             />
           </div>
 
+          {/* Botón nativo de envío - gatilla el onSubmit del formulario */}
           <button type="submit" className={styles.btnAuth}>
             Ingresar
           </button>
