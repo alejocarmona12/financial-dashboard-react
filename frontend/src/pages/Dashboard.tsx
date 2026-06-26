@@ -99,6 +99,18 @@ export default function Dashboard() {
             >
               Ver Facturas
             </button>
+            <button
+              className={styles.primary}
+              onClick={() => navigate("/gastos-combustible")}
+            >
+              Combustible
+            </button>
+            <button
+              className={styles.primary}
+              onClick={() => navigate("/ordenes-compra")}
+            >
+              Ordenes de Compra
+            </button>
           </div>
         </div>
 

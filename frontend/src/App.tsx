@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard";
 import Facturacion from "./pages/Facturacion";
 import DetalleFacturas from "./pages/Detalle-factura";
 import Register from "./pages/Register";
+import FuelExpenses from "./pages/GastosCombustible";
+import OrdenesCompra from "./pages/OrdenesCompra";
 
 // Componente protector dinámico que lee el almacenamiento en cada navegación
 const ProtectedRoute = () => {
@@ -34,6 +36,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/facturacion" element={<Facturacion />} />
           <Route path="/facturas" element={<DetalleFacturas />} />
+          <Route path="/gastos-combustible" element={<FuelExpenses />} />
+          <Route path="/ordenes-compra" element={<OrdenesCompra />} />
         </Route>
 
         {/* REDIRECCIÓN POR DEFECTO */}

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./Facturacion.module.css"; // Importación correcta como CSS Module
+import styles from "./Facturacion.module.css"; 
 
 interface Transaction {
   id: number;

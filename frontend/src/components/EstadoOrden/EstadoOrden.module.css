@@ -1,0 +1,41 @@
+.badge {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-block;
+    text-align: center;
+    min-width: 110px;
+  }
+  
+  /* Pendiente */
+  
+  .pendiente {
+    background: rgba(255, 193, 7, .15);
+    color: #ffc107;
+    border: 1px solid rgba(255,193,7,.4);
+  }
+  
+  /* Facturada */
+  
+  .facturada {
+    background: rgba(0,240,255,.15);
+    color: var(--primary);
+    border: 1px solid rgba(0,240,255,.4);
+  }
+  
+  /* Cobrada */
+  
+  .cobrada {
+    background: rgba(5,255,195,.15);
+    color: var(--success);
+    border: 1px solid rgba(5,255,195,.4);
+  }
+  
+  /* Cancelada */
+  
+  .cancelada {
+    background: rgba(255,0,127,.15);
+    color: var(--danger);
+    border: 1px solid rgba(255,0,127,.4);
+  }
