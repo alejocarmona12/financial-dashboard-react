@@ -1,16 +1,16 @@
 import styles from "./EstadoOrden.module.css";
 
-type Status =
+type Estado =
   | "Pendiente"
   | "Facturada"
   | "Cobrada"
   | "Cancelada";
 
 interface Props {
-  estado: Status;
+  estado: Estado;
 }
 
-export default function StatusBadge({ estado }: Props) {
+export default function EstadoOrden({ estado }: Props) {
   const className = styles[estado.toLowerCase()];
 
   return (

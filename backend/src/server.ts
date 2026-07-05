@@ -5,6 +5,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import transactionRoutes from "./routes/transactionRoutes";
 import errorMiddleware from "./middleware/errorMiddleware";
+import ordenRoutes from "./routes/ordenRoutes"; 
 
 dotenv.config();
 console.log(process.env.MONGO_URI);
@@ -39,6 +40,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/ordenes", ordenRoutes);
 
 app.get("/", (_req, res) => {
   res.send("API funcionando correctamente");

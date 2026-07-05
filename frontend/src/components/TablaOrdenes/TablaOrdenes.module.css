@@ -1,0 +1,43 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+    border-radius: 14px;
+    overflow: hidden;
+    border: var(--border-glow);
+    box-shadow: var(--shadow-card);
+  }
+  
+  .table th {
+    padding: 18px;
+    text-align: left;
+    color: var(--primary);
+    font-size: 13px;
+  }
+  
+  .table td {
+    padding: 18px;
+    border-top: 1px solid rgba(255,255,255,.05);
+  }
+  
+  .table tbody tr:hover {
+    background: rgba(255,255,255,.03);
+  }
+  
+  .actions{
+    display:flex;
+    gap:10px;
+  }
+  
+  .iconButton{
+    background:none;
+    border:none;
+    cursor:pointer;
+    color:var(--text-main);
+    transition:.2s;
+  }
+  
+  .iconButton:hover{
+    color:var(--primary);
+    transform:scale(1.1);
+  }

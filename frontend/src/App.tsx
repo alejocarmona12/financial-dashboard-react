@@ -14,6 +14,7 @@ import Register from "./pages/Register";
 import FuelExpenses from "./pages/GastosCombustible";
 import OrdenesCompra from "./pages/OrdenesCompra";
 
+
 // Componente protector dinámico que lee el almacenamiento en cada navegación
 const ProtectedRoute = () => {
   const token = localStorage.getItem("token");
