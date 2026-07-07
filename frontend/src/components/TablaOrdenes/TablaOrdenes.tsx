@@ -2,6 +2,7 @@ import {
   Eye,
   Pencil,
   Trash2,
+  FileText,
 } from "lucide-react";
 
 import EstadoOrden from "../EstadoOrden/EstadoOrden";
@@ -15,13 +16,17 @@ interface Props {
 
   onEditar: (orden: Orden) => void;
 
+  onFactura: (orden: Orden) => void;
+
   onEliminar: (orden: Orden) => void;
+
 }
 
 export default function TablaOrdenes({
   ordenes,
   onVer,
   onEditar,
+  onFactura,
   onEliminar,
 }: Props) {
   return (
@@ -70,8 +75,14 @@ export default function TablaOrdenes({
                 >
                   <Pencil size={18} />
                 </button>
-
                 <button
+                  className={styles.iconButton}
+                  onClick={() => onFactura(orden)}
+                  title="Subir factura"
+                >
+                  <FileText size={18} />
+                </button>
+                                <button
                   className={styles.iconButton}
                   onClick={() => onEliminar(orden)}
                 >

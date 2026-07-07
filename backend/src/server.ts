@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoutes";
 import transactionRoutes from "./routes/transactionRoutes";
 import errorMiddleware from "./middleware/errorMiddleware";
 import ordenRoutes from "./routes/ordenRoutes"; 
+import path from "path";
 
 dotenv.config();
 console.log(process.env.MONGO_URI);
@@ -37,10 +38,14 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-
+app.use(
+  "/uploads",
+  express.static(path.join(process.cwd(), "src/uploads"))
+);
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/ordenes", ordenRoutes);
+
 
 app.get("/", (_req, res) => {
   res.send("API funcionando correctamente");

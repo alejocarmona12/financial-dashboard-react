@@ -8,6 +8,8 @@ interface Props {
   onClose: () => void;
 }
 
+const API = "http://localhost:4000/uploads";
+
 export default function ModalDetalleOrden({
   open,
   orden,
@@ -33,18 +35,30 @@ export default function ModalDetalleOrden({
 
           <div>
             <strong>Fecha</strong>
-            <span>{orden.fecha}</span>
+
+            <span>
+              {new Date(
+                orden.fecha
+              ).toLocaleDateString("es-AR")}
+            </span>
           </div>
 
           <div>
             <strong>Estado</strong>
-            <EstadoOrden estado={orden.estado} />
+
+            <EstadoOrden
+              estado={orden.estado}
+            />
           </div>
 
           <div>
             <strong>Total</strong>
+
             <span>
-              ${orden.total.toLocaleString("es-AR")}
+              $
+              {orden.total.toLocaleString(
+                "es-AR"
+              )}
             </span>
           </div>
 
@@ -52,8 +66,55 @@ export default function ModalDetalleOrden({
             <strong>Descripción</strong>
 
             <p>
-              {orden.descripcion || "Sin descripción"}
+              {orden.descripcion ||
+                "Sin descripción"}
             </p>
+          </div>
+
+          {/* ORDEN DE COMPRA */}
+
+          <div className={styles.documento}>
+            <strong>Orden de Compra</strong>
+
+            {orden.archivo ? (
+              <button
+                onClick={() =>
+                  window.open(
+                    `${API}/${orden.archivo}`,
+                    "_blank"
+                  )
+                }
+              >
+                📄 Ver Orden de Compra
+              </button>
+            ) : (
+              <span>
+                No hay PDF cargado
+              </span>
+            )}
+          </div>
+
+          {/* FACTURA */}
+
+          <div className={styles.documento}>
+            <strong>Factura</strong>
+
+            {orden.factura ? (
+              <button
+                onClick={() =>
+                  window.open(
+                    `${API}/${orden.factura}`,
+                    "_blank"
+                  )
+                }
+              >
+                🧾 Ver Factura
+              </button>
+            ) : (
+              <span>
+                No hay factura cargada
+              </span>
+            )}
           </div>
         </div>
 

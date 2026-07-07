@@ -1,7 +1,9 @@
+
 import { useEffect, useState } from "react";
 import styles from "./ModalNuevaOrden.module.css";
 
 import type { Orden } from "../../types/Orden";
+
 import {
   crearOrden,
   actualizarOrden,
@@ -22,6 +24,7 @@ const formularioInicial: Orden = {
   total: 0,
   descripcion: "",
   archivo: null,
+  factura: null,
 };
 
 export default function ModalNuevaOrden({
@@ -40,21 +43,28 @@ export default function ModalNuevaOrden({
     total: "",
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
 
   useEffect(() => {
     if (orden) {
       setFormData({
         ...orden,
+
         fecha: orden.fecha
           ? new Date(orden.fecha)
               .toISOString()
-              .slice(0, 10):"",
+              .slice(0, 10)
+          : "",
+
+        archivo: orden.archivo ?? null,
+
+        factura: orden.factura ?? null,
       });
     } else {
       setFormData(formularioInicial);
     }
-  
+
     setErrores({
       numero: "",
       cliente: "",
@@ -65,9 +75,9 @@ export default function ModalNuevaOrden({
 
   const handleChange = (
     e: React.ChangeEvent<
-      HTMLInputElement |
-      HTMLSelectElement |
-      HTMLTextAreaElement
+      | HTMLInputElement
+      | HTMLSelectElement
+      | HTMLTextAreaElement
     >
   ) => {
     const { name, value } = e.target;
@@ -89,12 +99,13 @@ export default function ModalNuevaOrden({
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const file =
-      e.target.files?.[0] || null;
+    const { name, files } = e.target;
+
+    const file = files?.[0] || null;
 
     setFormData((prev) => ({
       ...prev,
-      archivo: file,
+      [name]: file,
     }));
   };
 
@@ -152,33 +163,35 @@ export default function ModalNuevaOrden({
     e: React.FormEvent
   ) => {
     e.preventDefault();
-  
+
     if (!validarFormulario()) return;
-  
+
     setLoading(true);
-  
+
     try {
       if (orden?._id) {
         await actualizarOrden(
           orden._id,
           formData
         );
-  
-        alert("Orden actualizada correctamente");
+
+        alert(
+          "Orden actualizada correctamente"
+        );
       } else {
         await crearOrden(formData);
-  
+
         alert("Orden creada correctamente");
       }
-  
+
       limpiarFormulario();
-  
+
       onSuccess();
-  
+
       onClose();
     } catch (error) {
       console.error(error);
-  
+
       alert(
         orden
           ? "Error al actualizar la orden"
@@ -268,12 +281,15 @@ export default function ModalNuevaOrden({
               <option value="Pendiente">
                 Pendiente
               </option>
+
               <option value="Facturada">
                 Facturada
               </option>
+
               <option value="Cobrada">
                 Cobrada
               </option>
+
               <option value="Cancelada">
                 Cancelada
               </option>
@@ -298,14 +314,44 @@ export default function ModalNuevaOrden({
             )}
           </div>
 
+          {/* PDF ORDEN */}
+
           <div className={styles.group}>
-            <label>Adjuntar PDF</label>
+            <label>Orden de Compra (PDF)</label>
 
             <input
               type="file"
+              name="archivo"
               accept=".pdf"
               onChange={handleFileChange}
             />
+
+            {typeof formData.archivo === "string" &&
+              formData.archivo && (
+                <small>
+                  📄 Archivo cargado
+                </small>
+              )}
+          </div>
+
+          {/* PDF FACTURA */}
+
+          <div className={styles.group}>
+            <label>Factura (PDF)</label>
+
+            <input
+              type="file"
+              name="factura"
+              accept=".pdf"
+              onChange={handleFileChange}
+            />
+
+            {typeof formData.factura === "string" &&
+              formData.factura && (
+                <small>
+                  🧾 Factura cargada
+                </small>
+              )}
           </div>
 
           <div className={styles.full}>

@@ -19,9 +19,10 @@ export interface Orden {
 
   descripcion: string;
 
-  archivo?: File | null;
+  
+  archivo?: File | string | null;
 
-  factura?: string;
+  factura?: File | string | null;
 
   fechaFactura?: string;
 

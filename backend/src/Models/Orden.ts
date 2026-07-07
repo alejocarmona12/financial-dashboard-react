@@ -11,7 +11,7 @@ const ordenSchema = new mongoose.Schema(
     cliente: {
       type: String,
       required: true,
-    },
+    },  
 
     fecha: {
       type: Date,
