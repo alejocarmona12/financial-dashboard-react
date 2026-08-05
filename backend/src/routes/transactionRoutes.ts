@@ -1,15 +1,24 @@
-import express from "express";
+import { Router } from "express";
 
 import {
-  createTransaction,
-  getTransactions,
+  obtenerTransacciones,
+  crearTransaccion,
+  actualizarTransaccion,
+  eliminarTransaccion,
 } from "../controllers/transactionController";
 
-import { protect } from "../middleware/authMiddleware";
+const router = Router();
 
-const router = express.Router();
+// Obtener todas las transacciones
+router.get("/", obtenerTransacciones);
 
-router.post("/", protect, createTransaction);
-router.get("/", protect, getTransactions);
+// Crear una nueva transacción
+router.post("/", crearTransaccion);
+
+// Actualizar una transacción
+router.put("/:id", actualizarTransaccion);
+
+// Eliminar una transacción
+router.delete("/:id", eliminarTransaccion);
 
 export default router;

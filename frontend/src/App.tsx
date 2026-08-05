@@ -11,7 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Facturacion from "./pages/Facturacion";
 import DetalleFacturas from "./pages/Detalle-factura";
 import Register from "./pages/Register";
-import FuelExpenses from "./pages/GastosCombustible";
+import FuelExpenses from "./pages/Combustible";
 import OrdenesCompra from "./pages/OrdenesCompra";
 
 

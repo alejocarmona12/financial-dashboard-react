@@ -1,62 +1,94 @@
 import { useEffect, useState } from "react";
+import api from "../services/Api";
 
 export interface Transaction {
-  id: number;
-  type: "income" | "expense";
+  id: string | undefined;
+  _id?: string;
+
+  title: string;
   amount: number;
+
+  type: "income" | "expense";
+
   category: string;
-  description: string;
-  date: string;
-  hasIVA: boolean;
+
+  description?: string;
+  date?: string;
+  hasIVA?: boolean;
 }
 
 export function useTransactions() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-
-  // 1. Identificar al usuario logueado actualmente de forma segura
-  const authData = localStorage.getItem("auth");
-  let storageKey = "transactions_guest"; // Clave por defecto por seguridad
-
-  if (authData) {
-    try {
-      const currentUser = JSON.parse(authData);
-      // Usamos el email del usuario para armar una clave única (ej: "transactions_juan@mail.com")
-      if (currentUser && currentUser.email) {
-        storageKey = `transactions_${currentUser.email}`;
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+  
+    const getTransactions = async () => {
+      try {
+        const token = localStorage.getItem("token");
+  
+        const response = await api.get("/transactions", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        setTransactions(response.data);
+      } catch (error) {
+        console.error("Error al obtener transacciones:", error);
       }
-    } catch (e) {
-      console.error("Error al parsear los datos de autenticación", e);
-    }
+    };
+    const addTransaction = async (
+        transaction: Transaction
+      ) => {
+        try {
+          const token = localStorage.getItem("token");
+      
+          const response = await api.post(
+            "/transactions",
+            transaction,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+      
+          setTransactions((prev) => [
+            response.data,
+            ...prev,
+          ]);
+        } catch (error) {
+          console.error("Error al crear transacción:", error);
+        }
+      };
+      const deleteTransaction = async (id: string) => {
+        if (!window.confirm("¿Seguro que querés eliminar este movimiento?")) {
+          return;
+        }
+      
+        try {
+          const token = localStorage.getItem("token");
+      
+          await api.delete(`/transactions/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+      
+          setTransactions((prev) =>
+            prev.filter((t) => t._id !== id)
+          );
+        } catch (error) {
+          console.error("Error al eliminar transacción:", error);
+        }
+      };
+
+    useEffect(() => {
+      getTransactions();
+    }, []);
+  
+    return {
+        transactions,
+        addTransaction,
+        deleteTransaction,
+      };
+    // Acá vamos a seguir agregando funciones
   }
-
-  // 2. Cargar desde localStorage usando la clave exclusiva de este usuario
-  useEffect(() => {
-    const saved = localStorage.getItem(storageKey);
-    if (saved) {
-      setTransactions(JSON.parse(saved));
-    } else {
-      setTransactions([]); // Si el usuario es nuevo, arranca limpio
-    }
-  }, [storageKey]);
-
-  // 3. Persistir los datos bajo la clave del usuario activo
-  const persist = (data: Transaction[]) => {
-    setTransactions(data);
-    localStorage.setItem(storageKey, JSON.stringify(data));
-  };
-
-  const addTransaction = (tx: Transaction) => {
-    persist([...transactions, tx]);
-  };
-
-  const deleteTransaction = (id: number) => {
-    if (!confirm("¿Seguro que querés eliminar este movimiento?")) return;
-    persist(transactions.filter((t) => t.id !== id));
-  };
-
-  return {
-    transactions,
-    addTransaction,
-    deleteTransaction,
-  };
-}

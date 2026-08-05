@@ -8,6 +8,7 @@ import {
 import EstadoOrden from "../EstadoOrden/EstadoOrden";
 import styles from "./TablaOrdenes.module.css";
 import type { Orden } from "../../types/Orden";
+import { formatearFecha } from "../../utils/formatearFecha";
 
 interface Props {
   ordenes: Orden[];
@@ -49,15 +50,14 @@ export default function TablaOrdenes({
 
             <td>{orden.cliente}</td>
 
-            <td>{orden.fecha}</td>
+            <td>{formatearFecha(orden.fecha)}</td>
 
             <td>
               <EstadoOrden estado={orden.estado} />
             </td>
 
-            <td>
-              $
-              {orden.total.toLocaleString("es-AR")}
+            <td className={styles.total}>
+                 ${orden.total.toLocaleString("es-AR")}
             </td>
 
             <td>

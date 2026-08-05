@@ -1,0 +1,98 @@
+.card{
+
+    background:var(--bg-card);
+
+    border:var(--border-glow);
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow-md);
+
+    transition:var(--transition);
+
+}
+
+/* hover  */
+.card:hover{
+
+    transform:translateY(-3px);
+    
+    box-shadow:var(--shadow-lg);
+    
+}
+
+/* button  */
+.btn{
+
+    display:flex;
+    
+    align-items:center;
+    
+    justify-content:center;
+    
+    gap:.5rem;
+    
+    padding:.8rem 1.3rem;
+    
+    border:none;
+    
+    border-radius:var(--radius-sm);
+    
+    cursor:pointer;
+    
+    font-weight:600;
+    
+    transition:var(--transition);
+    
+    }
+
+    /* button pricipal  */
+
+    .btn-primary{
+
+        background:var(--primary);
+        
+        color:#111827;
+        
+    }
+
+    /* hover  */
+    .btn-primary:hover{
+
+        background:var(--primary-hover);
+        
+    }
+
+    /* button de advertencia */
+    .btn-danger{
+
+        background:var(--danger);
+        
+        color:white;
+        
+    }
+
+    /* imput  */
+    .input{
+
+        background:var(--bg-input);
+        
+        border:1px solid var(--border);
+        
+        border-radius:var(--radius-sm);
+        
+        padding:.9rem 1rem;
+        
+        color:white;
+        
+        outline:none;
+        
+        transition:.25s;
+        
+    }
+    .input:focus{
+
+        border-color:var(--primary);
+        
+        }
+

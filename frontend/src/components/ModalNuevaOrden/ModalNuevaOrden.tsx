@@ -1,9 +1,8 @@
 
 import { useEffect, useState } from "react";
 import styles from "./ModalNuevaOrden.module.css";
-
+import { X } from "lucide-react";
 import type { Orden } from "../../types/Orden";
-
 import {
   crearOrden,
   actualizarOrden,
@@ -207,11 +206,27 @@ export default function ModalNuevaOrden({
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <h2>
-          {orden
-            ? "Editar Orden de Compra"
-            : "Nueva Orden de Compra"}
-        </h2>
+      <div className={styles.modalHeader}>
+  <div>
+    <h2>
+      {orden
+        ? "✏️ Editar Orden de Compra"
+        : "📄 Nueva Orden de Compra"}
+    </h2>
+
+    <p>
+      Completá la información de la orden.
+    </p>
+  </div>
+
+  <button
+    type="button"
+    className={styles.closeButton}
+    onClick={onClose}
+  >
+    <X size={22} />
+  </button>
+</div>
 
         <form
           className={styles.form}
@@ -319,6 +334,7 @@ export default function ModalNuevaOrden({
           <div className={styles.group}>
             <label>Orden de Compra (PDF)</label>
 
+          <label className={styles.uploadBox}>
             <input
               type="file"
               name="archivo"
@@ -326,30 +342,45 @@ export default function ModalNuevaOrden({
               onChange={handleFileChange}
             />
 
-            {typeof formData.archivo === "string" &&
-              formData.archivo && (
-                <small>
-                  📄 Archivo cargado
-                </small>
-              )}
-          </div>
+            <span>
+              {formData.archivo instanceof File
+                ? formData.archivo.name
+                : "📎 Seleccionar PDF"}
+            </span>
+          </label>
+
+          {typeof formData.archivo === "string" &&
+            formData.archivo && (
+              <small className={styles.fileLoaded}>
+                 Archivo cargado
+              </small>
+            )}
+        </div>
 
           {/* PDF FACTURA */}
 
           <div className={styles.group}>
             <label>Factura (PDF)</label>
 
-            <input
-              type="file"
-              name="factura"
-              accept=".pdf"
-              onChange={handleFileChange}
-            />
+            <label className={styles.uploadBox}>
+              <input
+                type="file"
+                name="factura"
+                accept=".pdf"
+                onChange={handleFileChange}
+              />
+
+              <span>
+                {formData.factura instanceof File
+                  ? formData.factura.name
+                  : "📎 Seleccionar PDF"}
+              </span>
+            </label>
 
             {typeof formData.factura === "string" &&
               formData.factura && (
-                <small>
-                  🧾 Factura cargada
+                <small className={styles.fileLoaded}>
+                  ✅ Factura cargada
                 </small>
               )}
           </div>

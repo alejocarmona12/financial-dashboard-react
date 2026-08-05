@@ -1,0 +1,58 @@
+.container {
+    margin-top: 2rem;
+  }
+  
+  .container h2 {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .list {
+    background: #1d1f29;
+    border-radius: 16px;
+    padding: 1rem;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  
+    padding: 1rem 0;
+  
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  
+  .item:last-child {
+    border-bottom: none;
+  }
+  
+  .icon {
+    width: 44px;
+    height: 44px;
+  
+    border-radius: 50%;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    background: rgba(59,130,246,.12);
+    color: #3b82f6;
+  }
+  
+  .info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .info strong {
+    color: white;
+  }
+  
+  .info span {
+    color: #9ca3af;
+    font-size: .9rem;
+  }

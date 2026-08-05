@@ -1,10 +1,21 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-const transactionSchema = new mongoose.Schema(
+export interface ITransaction extends Document {
+  title: string;
+  amount: number;
+  type: "income" | "expense";
+  category: string;
+  description?: string;
+  date: string;
+  hasIVA: boolean;
+}
+
+const transactionSchema = new Schema(
   {
     title: {
       type: String,
       required: true,
+      trim: true,
     },
 
     amount: {
@@ -21,12 +32,22 @@ const transactionSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      trim: true,
     },
 
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+    description: {
+      type: String,
+      default: "",
+    },
+
+    date: {
+      type: String,
       required: true,
+    },
+
+    hasIVA: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -34,7 +55,7 @@ const transactionSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model(
+export default mongoose.model<ITransaction>(
   "Transaction",
   transactionSchema
 );

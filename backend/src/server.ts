@@ -3,10 +3,11 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes";
-import transactionRoutes from "./routes/transactionRoutes";
 import errorMiddleware from "./middleware/errorMiddleware";
 import ordenRoutes from "./routes/ordenRoutes"; 
 import path from "path";
+import combustibleRoutes from "./routes/combustibleRoutes";
+import  transactionRoutes from "./routes/transactionRoutes";
 
 dotenv.config();
 console.log(process.env.MONGO_URI);
@@ -45,6 +46,7 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/ordenes", ordenRoutes);
+app.use("/api/combustible", combustibleRoutes);
 
 
 app.get("/", (_req, res) => {

@@ -1,79 +1,62 @@
-import { Response } from "express";
-
+import { Request, Response } from "express";
 import Transaction from "../Models/Transaction";
-import { AuthRequest } from "../middleware/authMiddleware";
 
+// ===============================
+// OBTENER TODAS LAS TRANSACCIONES
+// ===============================
+
+export const obtenerTransacciones = async (
+  _req: Request,
+  res: Response
+) => {
+  try {
+    const transacciones = await Transaction.find().sort({
+      date: -1,
+    });
+
+    res.json(transacciones);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Error al obtener las transacciones",
+    });
+  }
+};
+
+// ===============================
 // CREAR TRANSACCIÓN
-export const createTransaction = async (
-  req: AuthRequest,
+// ===============================
+
+export const crearTransaccion = async (
+  req: Request,
   res: Response
 ) => {
   try {
-    const { title, amount, type, category } = req.body;
+    const transaccion = new Transaction(req.body);
 
-    const transaction = await Transaction.create({
-      title,
-      amount,
-      type,
-      category,
-      user: req.userId,
-    });
+    await transaccion.save();
 
-    res.status(201).json(transaction);
+    res.status(201).json(transaccion);
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
-      message: "Error servidor",
+      message: "Error al crear la transacción",
     });
   }
 };
 
-// OBTENER TRANSACCIONES
-export const getTransactions = async (
-  req: AuthRequest,
-  res: Response
-) => {
-  try {
-    const transactions = await Transaction.find({
-      user: req.userId,
-    }).sort({
-      createdAt: -1,
-    });
-
-    res.json(transactions);
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      message: "Error servidor",
-    });
-  }
-};
-
+// ===============================
 // ACTUALIZAR TRANSACCIÓN
-export const updateTransaction = async (
-  req: AuthRequest,
+// ===============================
+
+export const actualizarTransaccion = async (
+  req: Request,
   res: Response
 ) => {
   try {
-    const transaction = await Transaction.findById(
-      req.params.id
-    );
-
-    if (!transaction) {
-      return res.status(404).json({
-        message: "Transacción no encontrada",
-      });
-    }
-
-    if (transaction.user.toString() !== req.userId) {
-      return res.status(401).json({
-        message: "No autorizado",
-      });
-    }
-
-    const updatedTransaction =
+    const transaccion =
       await Transaction.findByIdAndUpdate(
         req.params.id,
         req.body,
@@ -82,48 +65,48 @@ export const updateTransaction = async (
         }
       );
 
-    res.json(updatedTransaction);
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      message: "Error servidor",
-    });
-  }
-};
-
-// ELIMINAR TRANSACCIÓN
-export const deleteTransaction = async (
-  req: AuthRequest,
-  res: Response
-) => {
-  try {
-    const transaction = await Transaction.findById(
-      req.params.id
-    );
-
-    if (!transaction) {
+    if (!transaccion) {
       return res.status(404).json({
         message: "Transacción no encontrada",
       });
     }
 
-    if (transaction.user.toString() !== req.userId) {
-      return res.status(401).json({
-        message: "No autorizado",
+    res.json(transaccion);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Error al actualizar la transacción",
+    });
+  }
+};
+
+// ===============================
+// ELIMINAR TRANSACCIÓN
+// ===============================
+
+export const eliminarTransaccion = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const transaccion =
+      await Transaction.findByIdAndDelete(req.params.id);
+
+    if (!transaccion) {
+      return res.status(404).json({
+        message: "Transacción no encontrada",
       });
     }
 
-    await transaction.deleteOne();
-
     res.json({
-      message: "Transacción eliminada",
+      message: "Transacción eliminada correctamente",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
-      message: "Error servidor",
+      message: "Error al eliminar la transacción",
     });
   }
 };

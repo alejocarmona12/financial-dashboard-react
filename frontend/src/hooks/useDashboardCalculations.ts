@@ -1,23 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/Api";
+import type { Transaction } from "../types/Transaction";
 
-export interface Transaction {
-  _id?: string;
-  id?: number;
-
-  title?: string;
-  description?: string;
-
-  amount: number;
-
-  type: "income" | "expense";
-
-  category: string;
-
-  date?: string;
-
-  hasIVA?: boolean;
-}
 
 export const useTransactions = () => {
   const [transactions, setTransactions] =

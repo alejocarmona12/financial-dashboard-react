@@ -1,0 +1,148 @@
+.container {
+  margin: var(--space-xl) 0;
+}
+
+.container h2 {
+  color: var(--text-main);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 24px;
+}
+
+/* ==========================
+   CARD
+========================== */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 180px;
+
+  padding: 24px;
+
+  background: var(--bg-card);
+
+  border: var(--border-glow);
+
+  border-radius: var(--radius);
+
+  box-shadow: var(--shadow-card);
+
+  transition: var(--transition);
+
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px) scale(1.01);
+
+  box-shadow: var(--shadow-lg);
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+.header span {
+  color: var(--text-muted);
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.08em;
+}
+
+/* ==========================
+   VALOR
+========================== */
+
+.card strong {
+  color: var(--text-main);
+
+  font-size: 32px;
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
+}
+
+/* ==========================
+   DESCRIPCIÓN
+========================== */
+
+.card small {
+  color: var(--text-muted);
+
+  opacity: 0.75;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+/* ==========================
+   ICONOS
+========================== */
+
+.card svg {
+  transition: 0.3s ease;
+}
+
+.card:hover svg {
+  transform: scale(1.15);
+}
+
+/* ==========================
+   COLORES
+========================== */
+
+.success {
+  color: var(--success);
+}
+
+.warning {
+  color: #f59e0b;
+}
+
+.info {
+  color: var(--info);
+}
+
+.primary {
+  color: var(--primary);
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
