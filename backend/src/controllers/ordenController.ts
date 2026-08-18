@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import Orden from "../Models/Orden";
 
+const fechaValida = (fecha: unknown) =>
+  typeof fecha === "string" &&
+  fecha.trim() !== "" &&
+  !Number.isNaN(new Date(fecha).getTime());
+
 // ===============================
 // Crear una nueva orden
 // ===============================
@@ -22,6 +27,12 @@ export const crearOrden = async (
       factura:
         files?.factura?.[0]?.filename || null,
     };
+
+    if (datos.estado === "Cobrada" && !fechaValida(datos.fechaCobro)) {
+      return res.status(400).json({
+        message: "La fecha de cobro es obligatoria y debe ser válida.",
+      });
+    }
 
     const nuevaOrden = new Orden(datos);
 
@@ -78,6 +89,15 @@ export const actualizarOrden = async (
     const datosActualizados: any = {
       ...req.body,
     };
+
+    if (
+      datosActualizados.estado === "Cobrada" &&
+      !fechaValida(datosActualizados.fechaCobro)
+    ) {
+      return res.status(400).json({
+        message: "La fecha de cobro es obligatoria y debe ser válida.",
+      });
+    }
 
     // Solo actualiza el PDF de la Orden de Compra
     if (files?.archivo?.length) {

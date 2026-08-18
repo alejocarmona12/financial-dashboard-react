@@ -1,14 +1,12 @@
-import axios from "axios";
+import api from "./Api";
 import type { Orden } from "../types/Orden";
-
-const API = "http://localhost:4000/api/ordenes";
 
 // ==============================
 // OBTENER TODAS LAS ÓRDENES
 // ==============================
 
 export const obtenerOrdenes = async (): Promise<Orden[]> => {
-  const response = await axios.get(API);
+  const response = await api.get("/ordenes");
 
   return response.data;
 };
@@ -29,6 +27,10 @@ export const crearOrden = async (
   formData.append("total", orden.total.toString());
   formData.append("descripcion", orden.descripcion);
 
+  if (orden.fechaCobro) {
+    formData.append("fechaCobro", orden.fechaCobro);
+  }
+
   // PDF de la Orden de Compra
   if (orden.archivo instanceof File) {
     formData.append("archivo", orden.archivo);
@@ -39,7 +41,7 @@ export const crearOrden = async (
     formData.append("factura", orden.factura);
   }
 
-  const response = await axios.post(API, formData);
+  const response = await api.post("/ordenes", formData);
 
   return response.data.orden;
 };
@@ -61,6 +63,10 @@ export const actualizarOrden = async (
   formData.append("total", orden.total.toString());
   formData.append("descripcion", orden.descripcion);
 
+  if (orden.fechaCobro) {
+    formData.append("fechaCobro", orden.fechaCobro);
+  }
+
   // Solo actualizar el PDF de la Orden de Compra
   if (orden.archivo instanceof File) {
     formData.append("archivo", orden.archivo);
@@ -70,8 +76,8 @@ export const actualizarOrden = async (
   // La factura NO se envía desde aquí.
   // Se sube mediante subirFactura().
 
-  const response = await axios.put(
-    `${API}/${id}`,
+  const response = await api.put(
+    `/ordenes/${id}`,
     formData
   );
 
@@ -85,7 +91,7 @@ export const actualizarOrden = async (
 export const eliminarOrden = async (
   id: string
 ): Promise<void> => {
-  await axios.delete(`${API}/${id}`);
+  await api.delete(`/ordenes/${id}`);
 };
 
 // ==============================
@@ -102,8 +108,8 @@ export const subirFactura = async (
   formData.append("factura", archivo);
   formData.append("fechaFactura", fecha);
 
-  const response = await axios.put(
-    `${API}/${id}/factura`,
+  const response = await api.put(
+    `/ordenes/${id}/factura`,
     formData
   );
 

@@ -1,78 +1,60 @@
-import {
-    ArrowDownCircle,
-    ArrowUpCircle,
-    FileText,
-    Fuel,
-  } from "lucide-react";
-  
-  import styles from "./RecentActivity.module.css";
-  
-  interface Activity {
-    id: number;
-    type: "income" | "expense" | "invoice" | "fuel";
-    title: string;
-    time: string;
-  }
-  
-  const activities: Activity[] = [
-    {
-      id: 1,
-      type: "income",
-      title: "Ingreso registrado",
-      time: "Hace 5 minutos",
-    },
-    {
-      id: 2,
-      type: "expense",
-      title: "Nuevo gasto",
-      time: "Hace 25 minutos",
-    },
-    {
-      id: 3,
-      type: "invoice",
-      title: "Factura emitida",
-      time: "Hace 1 hora",
-    },
-    {
-      id: 4,
-      type: "fuel",
-      title: "Carga de combustible",
-      time: "Hace 2 horas",
-    },
-  ];
-  
-  export default function RecentActivity() {
-    const getIcon = (type: Activity["type"]) => {
-      switch (type) {
-        case "income":
-          return <ArrowUpCircle size={22} />;
-        case "expense":
-          return <ArrowDownCircle size={22} />;
-        case "invoice":
-          return <FileText size={22} />;
-        case "fuel":
-          return <Fuel size={22} />;
-      }
-    };
-  
-    return (
-      <section className={styles.container}>
-        <h2>Actividad reciente</h2>
-  
-        <div className={styles.list}>
-          {activities.map((activity) => (
-            <div key={activity.id} className={styles.item}>
-              <div className={styles.icon}>
-                {getIcon(activity.type)}
-              </div>
-  
-              <div className={styles.info}>
-                <strong>{activity.title}</strong>
-                <span>{activity.time}</span>
-              </div>
-            </div>
-          ))}
+import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
+
+import type { Transaction } from "../../types/Transaction";
+import styles from "./RecentActivity.module.css";
+
+interface Props {
+  transactions: Transaction[];
+  formatCurrency: (value: number) => string;
+  formatDate: (date: string) => string;
+}
+
+export default function RecentActivity({
+  transactions,
+  formatCurrency,
+  formatDate,
+}: Props) {
+  const recentTransactions = transactions.slice(0, 4);
+
+  return (
+    <section className={styles.container}>
+      <div className={styles.heading}>
+        <div>
+          <span>Últimos registros</span>
+          <h2>Actividad reciente</h2>
         </div>
-      </section>
-    );
-  }
+        <span className={styles.count}>{recentTransactions.length}</span>
+      </div>
+
+      {recentTransactions.length === 0 ? (
+        <p className={styles.empty}>No hay movimientos para este período.</p>
+      ) : (
+        <div className={styles.list}>
+          {recentTransactions.map((transaction) => {
+            const isIncome = transaction.type === "income";
+
+            return (
+              <article
+                key={transaction._id ?? `${transaction.title}-${transaction.date}`}
+                className={styles.item}
+              >
+                <div className={isIncome ? styles.incomeIcon : styles.expenseIcon}>
+                  {isIncome ? <ArrowUpCircle size={18} /> : <ArrowDownCircle size={18} />}
+                </div>
+
+                <div className={styles.info}>
+                  <strong>{transaction.title}</strong>
+                  <span>{transaction.category} · {formatDate(transaction.date)}</span>
+                </div>
+
+                <strong className={isIncome ? styles.incomeAmount : styles.expenseAmount}>
+                  {isIncome ? "+" : "−"}{formatCurrency(transaction.amount)}
+                </strong>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  );
+}

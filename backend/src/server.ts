@@ -8,6 +8,8 @@ import ordenRoutes from "./routes/ordenRoutes";
 import path from "path";
 import combustibleRoutes from "./routes/combustibleRoutes";
 import  transactionRoutes from "./routes/transactionRoutes";
+import dashboardRoutes from "./routes/dashboardRoutes";
+
 
 dotenv.config();
 console.log(process.env.MONGO_URI);
@@ -47,6 +49,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/ordenes", ordenRoutes);
 app.use("/api/combustible", combustibleRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+
 
 
 app.get("/", (_req, res) => {

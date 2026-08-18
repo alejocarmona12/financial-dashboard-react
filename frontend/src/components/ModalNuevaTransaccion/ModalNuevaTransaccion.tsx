@@ -1,17 +1,17 @@
 import { useState } from "react";
 import styles from "./ModalNuevaTransaccion.module.css";
-import type { Transaction } from "../../hooks/useTransactions";
+import type { NewTransaction } from "../../types/Transaction";
 
 interface Props {
   onClose: () => void;
-  onSave: (transaction: Transaction) => Promise<void>;
+  onSave: (transaction: NewTransaction) => Promise<void>;
 }
 
 export default function ModalNuevaTransaccion({
   onClose,
   onSave,
 }: Props) {
-  const [form, setForm] = useState<Transaction>({
+  const [form, setForm] = useState<NewTransaction>({
     title: "",
     amount: 0,
     type: "expense",

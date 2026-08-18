@@ -2,12 +2,13 @@
 
 .dashboard {
   min-height: 100vh;
-  padding: 2.5rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 32px clamp(16px, 3vw, 48px) 48px;
   background: var(--bg-main);
-
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 28px;
 }
 
 /* header  */
@@ -15,8 +16,8 @@
 .topBar {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 24px;
 }
 
 .topBar > :first-child {
@@ -25,208 +26,94 @@
 
 /* boton de salir  */
 
-.logout {
-  background: transparent;
-  color: #d1d5db;
-
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 12px;
-
-  padding: .8rem 1.2rem;
-
-  font-size: .9rem;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: .25s;
-}
-
-.logout:hover {
-  background: #ef4444;
-  color: white;
-  border-color: #ef4444;
-}
-
-/* filtros  */
-
-.monthSelector {
+.topActions {
   display: flex;
+  align-items: end;
   justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.monthSelector select {
-  background: #1d1f24;
-  color: white;
-
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 12px;
-
-  padding: .8rem 1rem;
-
-  font-size: .9rem;
-
-  cursor: pointer;
-
-  transition: .25s;
-}
-
-.monthSelector select:hover,
-.monthSelector select:focus {
-  border-color: #00f0ff;
-}
-
-/* card base  */
-
-.card {
-  background: #1d1f24;
-
-  border: 1px solid rgba(255,255,255,.08);
-
-  border-radius: 18px;
-
-  box-shadow: 0 15px 35px rgba(0,0,0,.25);
-}
-
-/* tabla  */
-
-.table {
-  width: 100%;
-
-  border-collapse: collapse;
-
-  overflow: hidden;
-
-  border-radius: 18px;
-
-  background: #1d1f24;
-
-  box-shadow: 0 15px 35px rgba(0,0,0,.25);
-}
-
-.table th {
-  background: #242730;
-
-  color: #00f0ff;
-
-  padding: 18px;
-
-  font-size: .8rem;
-
-  letter-spacing: .08em;
-
-  text-transform: uppercase;
-
-  text-align: left;
-}
-
-.table td {
-  padding: 16px;
-
-  color: white;
-
-  border-top: 1px solid rgba(255,255,255,.05);
-}
-
-.table td:last-child,
-.table th:last-child {
-  text-align: center;
-}
-
-.table td:nth-child(3) {
-  text-align: right;
-}
-
-.table tr {
-  transition: background .2s;
-}
-
-.table tr:hover {
-  background: rgba(255,255,255,.03);
-}
-
-/* chart  */
-
-.chartContainer {
-  width: 100%;
-  min-height: 320px;
-}
-
-.chartContent {
+.periodControl {
   display: grid;
-
-  grid-template-columns: 1fr 260px;
-
-  gap: 24px;
-
-  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
 
-/* stats  */
-
-.chartStats {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.statCard {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  padding: 14px 18px;
-
-  border-radius: 12px;
-
-  background: rgba(255,255,255,.05);
-
-  border: 1px solid rgba(255,255,255,.06);
-}
-
-.statLabel {
-  color: #9ca3af;
+.periodControl select,
+.logout,
+.newMovement {
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 14px;
   font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
-.statValue {
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
+.periodControl select,
+.logout {
+  padding: 0 13px;
+  color: var(--text-light);
+  background: var(--bg-card);
 }
 
-.income {
-  color: #22c55e;
+.periodControl select:focus,
+.logout:hover {
+  border-color: var(--primary);
+  outline: none;
 }
 
-.expense {
-  color: #ef4444;
+.newMovement {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 15px;
+  color: #06212a;
+  background: var(--primary);
+  border-color: var(--primary);
 }
 
-.balancePositive {
-  color: #3b82f6;
+.newMovement:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.loading {
+  margin: 0;
+  padding: 16px;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 14px;
+  background: var(--bg-card);
+  border: var(--border-glow);
+  border-radius: var(--radius-sm);
 }
 
 /* resposive */
 
-@media (max-width:1100px){
+@media (max-width: 900px) {
+  .topBar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 
-.dashboard{
-    padding:1.5rem;
-}
+  .topActions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 
-.topBar{
-    flex-direction:column;
-}
+  .periodControl {
+    flex: 1;
+  }
 
-.monthSelector{
-    justify-content:flex-start;
-}
-
-.chartContent{
-    grid-template-columns:1fr;
-}
-
+  .periodControl select {
+    width: 100%;
+  }
 }

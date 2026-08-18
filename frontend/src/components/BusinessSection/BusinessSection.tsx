@@ -6,12 +6,20 @@ interface Props {
   balance: number;
   ingresos: number;
   gastos: number;
+  facturasPendientes: number;
+  ordenesPendientes: number;
+  combustibleMes: number;
+  cobradoMes: number;
 }
 
 export default function BusinessSection({
   balance,
   ingresos,
   gastos,
+  facturasPendientes,
+  ordenesPendientes,
+  combustibleMes,
+  cobradoMes,
 }: Props) {
   return (
     <section className={styles.container}>
@@ -22,10 +30,10 @@ export default function BusinessSection({
       />
 
       <BusinessStatus
-        facturasPendientes={8}
-        ordenesPendientes={3}
-        combustibleMes={450000}
-        cobradoMes={1250000}
+        facturasPendientes={facturasPendientes}
+        ordenesPendientes={ordenesPendientes}
+        combustibleMes={combustibleMes}
+        cobradoMes={cobradoMes}
       />
     </section>
   );

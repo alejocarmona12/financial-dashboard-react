@@ -21,6 +21,14 @@ const formularioInicial: Combustible = {
   observaciones: "",
 };
 
+const formatearFechaParaInput = (fecha: string) => {
+  const fechaParseada = new Date(fecha);
+
+  return Number.isNaN(fechaParseada.getTime())
+    ? ""
+    : fechaParseada.toISOString().slice(0, 10);
+};
+
 export default function ModalNuevaCarga({
   open,
   onClose,
@@ -43,7 +51,10 @@ export default function ModalNuevaCarga({
 
   useEffect(() => {
     if (carga) {
-      setFormData(carga);
+      setFormData({
+        ...carga,
+        fecha: formatearFechaParaInput(carga.fecha),
+      });
     } else {
       setFormData(formularioInicial);
     }

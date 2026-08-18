@@ -1,5 +1,5 @@
 import api from "./Api";
-import type { Transaction } from "../types/Transaction";
+import type { NewTransaction, Transaction } from "../types/Transaction";
 
 // ===============================
 // OBTENER
@@ -15,7 +15,7 @@ export const obtenerTransacciones = async () => {
 // ===============================
 
 export const crearTransaccion = async (
-  data: Transaction
+  data: NewTransaction
 ) => {
   const response = await api.post(
     "/transactions",

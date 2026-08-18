@@ -1,58 +1,36 @@
 .container {
-    margin-top: 2rem;
-  }
-  
-  .container h2 {
-    color: white;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-  }
-  
-  .list {
-    background: #1d1f29;
-    border-radius: 16px;
-    padding: 1rem;
-    border: 1px solid rgba(255,255,255,.08);
-  }
-  
-  .item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  
-    padding: 1rem 0;
-  
-    border-bottom: 1px solid rgba(255,255,255,.06);
-  }
-  
-  .item:last-child {
-    border-bottom: none;
-  }
-  
-  .icon {
-    width: 44px;
-    height: 44px;
-  
-    border-radius: 50%;
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    background: rgba(59,130,246,.12);
-    color: #3b82f6;
-  }
-  
-  .info {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .info strong {
-    color: white;
-  }
-  
-  .info span {
-    color: #9ca3af;
-    font-size: .9rem;
-  }
+  height: 100%;
+  padding: 20px;
+  background: var(--bg-card);
+  border: var(--border-glow);
+  border-radius: var(--radius);
+}
+
+.heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.heading span:first-child { color: var(--text-muted); font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.heading h2 { margin-top: 4px; color: var(--text-main); font-size: 18px; }
+
+.count {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: var(--primary);
+  background: rgba(34, 211, 238, .1);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.list { display: flex; flex-direction: column; }
+.item { display: flex; align-items: center; gap: 10px; padding: 13px 0; border-top: 1px solid var(--border); }
+.incomeIcon, .expenseIcon { display: grid; width: 34px; height: 34px; flex-shrink: 0; place-items: center; border-radius: 50%; }
+.incomeIcon { color: var(--success); background: rgba(52, 211, 153, .1); }
+.expenseIcon { color: var(--danger); background: rgba(248, 113, 113, .1); }
+.info { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 3px; }
+.info strong { overflow: hidden; color: var(--text-light); font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.info span { overflow: hidden; color: var(--text-muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.incomeAmount, .expenseAmount { white-space: nowrap; font-size: 13px; }
+.incomeAmount { color: var(--success); }
+.expenseAmount { color: var(--danger); }
+.empty { padding: 28px 0; color: var(--text-muted); font-size: 14px; text-align: center; }

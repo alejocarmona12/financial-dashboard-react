@@ -26,6 +26,16 @@ const formularioInicial: Orden = {
   factura: null,
 };
 
+const formatearFechaParaInput = (fecha?: string) => {
+  if (!fecha) return "";
+
+  const fechaParseada = new Date(fecha);
+
+  return Number.isNaN(fechaParseada.getTime())
+    ? ""
+    : fechaParseada.toISOString().slice(0, 10);
+};
+
 export default function ModalNuevaOrden({
   open,
   onClose,
@@ -39,6 +49,7 @@ export default function ModalNuevaOrden({
     numero: "",
     cliente: "",
     fecha: "",
+    fechaCobro: "",
     total: "",
   });
 
@@ -50,11 +61,9 @@ export default function ModalNuevaOrden({
       setFormData({
         ...orden,
 
-        fecha: orden.fecha
-          ? new Date(orden.fecha)
-              .toISOString()
-              .slice(0, 10)
-          : "",
+        fecha: formatearFechaParaInput(orden.fecha),
+
+        fechaCobro: formatearFechaParaInput(orden.fechaCobro),
 
         archivo: orden.archivo ?? null,
 
@@ -68,6 +77,7 @@ export default function ModalNuevaOrden({
       numero: "",
       cliente: "",
       fecha: "",
+      fechaCobro: "",
       total: "",
     });
   }, [orden, open]);
@@ -110,11 +120,12 @@ export default function ModalNuevaOrden({
 
   const validarFormulario = () => {
     const nuevosErrores = {
-      numero: "",
-      cliente: "",
-      fecha: "",
-      total: "",
-    };
+    numero: "",
+    cliente: "",
+    fecha: "",
+    fechaCobro: "",
+    total: "",
+  };
 
     let esValido = true;
 
@@ -136,6 +147,15 @@ export default function ModalNuevaOrden({
       esValido = false;
     }
 
+    if (
+      formData.estado === "Cobrada" &&
+      !formData.fechaCobro
+    ) {
+      nuevosErrores.fechaCobro =
+        "La fecha de cobro es obligatoria";
+      esValido = false;
+    }
+
     if (formData.total <= 0) {
       nuevosErrores.total =
         "El total debe ser mayor a cero";
@@ -154,6 +174,7 @@ export default function ModalNuevaOrden({
       numero: "",
       cliente: "",
       fecha: "",
+      fechaCobro: "",
       total: "",
     });
   };
@@ -310,6 +331,25 @@ export default function ModalNuevaOrden({
               </option>
             </select>
           </div>
+
+          {formData.estado === "Cobrada" && (
+            <div className={styles.group}>
+              <label>Fecha de cobro</label>
+
+              <input
+                type="date"
+                name="fechaCobro"
+                value={formData.fechaCobro ?? ""}
+                onChange={handleChange}
+              />
+
+              {errores.fechaCobro && (
+                <span className={styles.error}>
+                  {errores.fechaCobro}
+                </span>
+              )}
+            </div>
+          )}
 
           <div className={styles.group}>
             <label>Total</label>

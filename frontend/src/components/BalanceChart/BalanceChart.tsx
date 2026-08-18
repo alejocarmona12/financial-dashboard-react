@@ -9,9 +9,10 @@ import {
   
   import styles from "./BalanceChart.module.css";
   
-  interface BalanceData {
+  export interface BalanceData {
     name: string;
     value: number;
+    [key: string]: string | number;
   }
   
   interface Props {

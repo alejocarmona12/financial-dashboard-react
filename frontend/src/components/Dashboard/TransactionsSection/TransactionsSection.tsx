@@ -15,65 +15,59 @@ export default function TransactionsSection({
   formatDate,
 }: Props) {
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Categoría</th>
-          <th>Monto</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
+    <section className={styles.card}>
+      <div className={styles.heading}>
+        <div>
+          <span>Registro financiero</span>
+          <h2>Movimientos recientes</h2>
+        </div>
+        <span className={styles.count}>{transactions.length}</span>
+      </div>
 
-      <tbody>
-        {transactions.length === 0 ? (
-          <tr>
-            <td
-              colSpan={4}
-              style={{
-                textAlign: "center",
-                padding: "30px",
-                color: "var(--text-muted)",
-              }}
-            >
-              No hay movimientos registrados.
-            </td>
-          </tr>
-        ) : (
-          transactions.map((t) => (
-            <tr key={t._id}>
-              <td>{formatDate(t.date)}</td>
-
-              <td>{t.category}</td>
-
-              <td
-                style={{
-                  fontWeight: 700,
-                  color:
-                    t.type === "income"
-                      ? "var(--success)"
-                      : "var(--danger)",
-                }}
-              >
-                {formatCurrency(t.amount)}
-              </td>
-
-              <td>
-                <button
-                  className={styles.deleteButton}
-                  onClick={() => {
-                    if (t._id) {
-                      onDelete(t._id);
-                    }
-                  }}
-                >
-                  🗑️
-                </button>
-              </td>
+      <div className={styles.tableContainer}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Categoría</th>
+              <th>Monto</th>
+              <th>Acciones</th>
             </tr>
-          ))
-        )}
-      </tbody>
-    </table>
+          </thead>
+
+          <tbody>
+            {transactions.length === 0 ? (
+              <tr>
+                <td colSpan={4} className={styles.empty}>
+                  No hay movimientos registrados para este período.
+                </td>
+              </tr>
+            ) : (
+              transactions.map((t) => (
+                <tr key={t._id}>
+                  <td>{formatDate(t.date)}</td>
+                  <td>{t.category}</td>
+                  <td className={t.type === "income" ? styles.income : styles.expense}>
+                    {t.type === "income" ? "+" : "−"}{formatCurrency(t.amount)}
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className={styles.deleteButton}
+                      aria-label={`Eliminar ${t.title}`}
+                      onClick={() => {
+                        if (t._id) onDelete(t._id);
+                      }}
+                    >
+                      🗑️
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 }

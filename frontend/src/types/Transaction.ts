@@ -15,3 +15,5 @@ export interface Transaction {
 
   hasIVA: boolean;
 }
+
+export type NewTransaction = Omit<Transaction, "_id">;

@@ -1,130 +1,17 @@
-/* ===========================================
-   CONTENEDOR
-=========================================== */
-
-.tableContainer {
-  width: 100%;
-
-  overflow-x: auto;
-
-  border-radius: 22px;
-
-  border: 1px solid rgba(255,255,255,.08);
-
-  background: var(--bg-card);
-
-  box-shadow: 0 18px 35px rgba(0,0,0,.18);
-}
-
-/* ===========================================
-   TABLA
-=========================================== */
-
-.table{
-  width:100%;
-
-  border-collapse:collapse;
-
-  min-width:750px;
-}
-
-/* ===========================================
-   HEADER
-=========================================== */
-
-.table thead{
-  background:rgba(255,255,255,.03);
-}
-
-.table th{
-
-  padding:22px;
-
-  text-align:left;
-
-  color:var(--primary);
-
-  font-size:15px;
-
-  font-weight:700;
-
-  text-transform:uppercase;
-
-  border-bottom:1px solid rgba(255,255,255,.08);
-
-}
-
-/* ===========================================
-   FILAS
-=========================================== */
-
-.table td{
-
-  padding:18px 22px;
-
-  color:var(--text-main);
-
-  border-bottom:1px solid rgba(255,255,255,.05);
-
-  font-size:15px;
-
-}
-
-.table tbody tr{
-
-  transition:.25s;
-
-}
-
-.table tbody tr:hover{
-
-  background:rgba(0,240,255,.04);
-
-}
-
-/* ===========================================
-   BOTON ELIMINAR
-=========================================== */
-
-.deleteButton{
-
-  width:42px;
-  height:42px;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  border:none;
-
-  border-radius:10px;
-
-  background:rgba(255,255,255,.05);
-
-  cursor:pointer;
-
-  transition:.25s;
-
-  font-size:18px;
-
-}
-
-.deleteButton:hover{
-
-  background:#ef4444;
-
-  transform:translateY(-2px);
-
-}
-
-/* ===========================================
-   RESPONSIVE
-=========================================== */
-
-@media (max-width:768px){
-
-  .table{
-    min-width:650px;
-  }
-
-}
+.card { padding: 20px; background: var(--bg-card); border: var(--border-glow); border-radius: var(--radius); }
+.heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.heading span:first-child { color: var(--text-muted); font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.heading h2 { margin-top: 4px; color: var(--text-main); font-size: 18px; }
+.count { display: grid; width: 30px; height: 30px; place-items: center; color: var(--primary); background: rgba(34, 211, 238, .1); border-radius: 50%; font-size: 12px; font-weight: 700; }
+.tableContainer { width: 100%; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.table { width: 100%; min-width: 620px; border-collapse: collapse; }
+.table thead { background: var(--bg-table-header); }
+.table th { padding: 13px 16px; color: var(--text-muted); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-align: left; text-transform: uppercase; }
+.table td { padding: 15px 16px; color: var(--text-light); border-top: 1px solid var(--border); font-size: 14px; }
+.table tbody tr { transition: var(--transition); }
+.table tbody tr:hover { background: rgba(148, 163, 184, .05); }
+.table th:last-child, .table td:last-child { width: 74px; text-align: center; }
+.income, .expense { font-weight: 700; }.income { color: var(--success) !important; }.expense { color: var(--danger) !important; }
+.deleteButton { display: inline-grid; width: 32px; height: 32px; place-items: center; background: transparent; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: var(--transition); }
+.deleteButton:hover { background: rgba(248, 113, 113, .12); border-color: var(--danger); }
+.empty { padding: 34px !important; color: var(--text-muted) !important; text-align: center; }

@@ -12,7 +12,7 @@ interface Props {
 
 export default function DashboardHeader({
   titulo,
-  usuario = "Alejo",
+  usuario = "Usuario",
 }: Props) {
   const fecha = new Date().toLocaleDateString("es-AR", {
     weekday: "long",
@@ -34,16 +34,9 @@ export default function DashboardHeader({
   return (
     <header className={styles.header}>
       <div className={styles.left}>
-        <span className={styles.badge}>Dashboard</span>
-        <span className={styles.badge}>
-            {saludo}, {usuario}
-        </span>
-
-      <h1>{titulo}</h1>
-
-  <p>
-  Administrá tu empresa y seguí el estado financiero en tiempo real.
-</p>
+        <span className={styles.eyebrow}>Panel financiero</span>
+        <h1>{titulo}</h1>
+        <p>{saludo}, {usuario}. Consultá el estado de tu negocio en tiempo real.</p>
       </div>
 
       <div className={styles.right}>
@@ -51,7 +44,7 @@ export default function DashboardHeader({
           <CalendarDays size={22} />
 
           <div className={styles.info}>
-            <small>Hoy</small>
+            <small>Fecha actual</small>
             <span>{fecha}</span>
           </div>
         </div>
@@ -60,7 +53,7 @@ export default function DashboardHeader({
           <CircleUserRound size={22} />
 
           <div className={styles.info}>
-            <small>Usuario</small>
+            <small>Sesión activa</small>
             <span>{usuario}</span>
           </div>
         </div>

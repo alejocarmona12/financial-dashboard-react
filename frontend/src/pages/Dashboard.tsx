@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Plus } from "lucide-react";
 
-import type { Transaction } from "../types/Transaction";
+import type { NewTransaction, Transaction } from "../types/Transaction";
 
 import {
   obtenerTransacciones,
   crearTransaccion,
   eliminarTransaccion,
 } from "../services/TransactionService";
+import {
+  obtenerResumenDashboard,
+  type DashboardSummary,
+} from "../services/DashboardService";
 
 import { useDashboardCalculations } from "../hooks/useDashboardCalculations";
 
@@ -33,7 +38,11 @@ export default function Dashboard() {
   const [selectedMonth, setSelectedMonth] = useState("all");
   const [openModal, setOpenModal] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dashboardSummary, setDashboardSummary] =
+    useState<DashboardSummary | null>(null);
+  const [summaryLoading, setSummaryLoading] = useState(true);
+  const [summaryError, setSummaryError] = useState("");
 
 const cargarTransacciones = async () => {
   try {
@@ -49,18 +58,38 @@ const cargarTransacciones = async () => {
   }
 };
 
+const cargarResumenDashboard = async () => {
+  try {
+    setSummaryLoading(true);
+    setSummaryError("");
+
+    const data = await obtenerResumenDashboard();
+
+    setDashboardSummary(data);
+  } catch (error) {
+    console.error(error);
+    setSummaryError("No se pudo cargar el estado del negocio.");
+  } finally {
+    setSummaryLoading(false);
+  }
+};
+
 useEffect(() => {
   cargarTransacciones();
+  cargarResumenDashboard();
 }, []);
 
 
 const guardarTransaccion = async (
-  nueva: Transaction
+  nueva: NewTransaction
 ) => {
   try {
     await crearTransaccion(nueva);
 
-    await cargarTransacciones();
+    await Promise.all([
+      cargarTransacciones(),
+      cargarResumenDashboard(),
+    ]);
 
     setOpenModal(false);
   } catch (error) {
@@ -74,7 +103,10 @@ const handleEliminar = async (
   try {
     await eliminarTransaccion(id);
 
-    await cargarTransacciones();
+    await Promise.all([
+      cargarTransacciones(),
+      cargarResumenDashboard(),
+    ]);
   } catch (error) {
     console.error(error);
   }
@@ -110,75 +142,96 @@ const handleEliminar = async (
 
   return (
     <div className={styles.dashboard}>
-      {/* HEADER */}
       <div className={styles.topBar}>
         <DashboardHeader titulo="Gestor Contable" />
 
-        <button
-          className={styles.logout}
-          onClick={logout}
-        >
-          Cerrar sesión
-        </button>
+        <div className={styles.topActions}>
+          <label className={styles.periodControl}>
+            <span>Período</span>
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+            >
+              <option value="all">Todos los meses</option>
+              <option value="0">Enero</option>
+              <option value="1">Febrero</option>
+              <option value="2">Marzo</option>
+              <option value="3">Abril</option>
+              <option value="4">Mayo</option>
+              <option value="5">Junio</option>
+              <option value="6">Julio</option>
+              <option value="7">Agosto</option>
+              <option value="8">Septiembre</option>
+              <option value="9">Octubre</option>
+              <option value="10">Noviembre</option>
+              <option value="11">Diciembre</option>
+            </select>
+          </label>
+
+          <button
+            className={styles.newMovement}
+            onClick={() => setOpenModal(true)}
+          >
+            <Plus size={18} />
+            Nuevo movimiento
+          </button>
+
+          <button className={styles.logout} onClick={logout}>
+            Cerrar sesión
+          </button>
+        </div>
       </div>
 
-   
-
-        {/* TARJETAS */}
-        <SummaryCards
+      <SummaryCards
         ingresos={incomeTotal}
         gastos={expenseTotal}
         balance={balance}
         iva={ivaTotal}
       />
-     
-      {/* FILTRO */}
-      <div className={styles.monthSelector}>
-        <select
-          value={selectedMonth}
-          onChange={(e) => setSelectedMonth(e.target.value)}
-        >
-          <option value="all">Todos los meses</option>
-          <option value="0">Enero</option>
-          <option value="1">Febrero</option>
-          <option value="2">Marzo</option>
-          <option value="3">Abril</option>
-          <option value="4">Mayo</option>
-          <option value="5">Junio</option>
-          <option value="6">Julio</option>
-          <option value="7">Agosto</option>
-          <option value="8">Septiembre</option>
-          <option value="9">Octubre</option>
-          <option value="10">Noviembre</option>
-          <option value="11">Diciembre</option>
-        </select>
-      </div>
 
-      {/* CONTENIDO */}
       <AnalyticsSection
         balanceData={balanceData}
         incomeTotal={incomeTotal}
         expenseTotal={expenseTotal}
         balance={balance}
         insight={insight}
+        transactions={filteredTransactions}
+        formatCurrency={formatCurrency}
+        formatDate={formatDate}
       />
       <BusinessSection
-  balance={balance}
-  ingresos={incomeTotal}
-  gastos={expenseTotal}
-/>
+        balance={balance}
+        ingresos={incomeTotal}
+        gastos={expenseTotal}
+        facturasPendientes={dashboardSummary?.facturasPendientes ?? 0}
+        ordenesPendientes={dashboardSummary?.ordenesPendientes ?? 0}
+        combustibleMes={dashboardSummary?.combustibleMes ?? 0}
+        cobradoMes={dashboardSummary?.cobradoMes ?? 0}
+      />
 
-<ActionsSection
-  onNuevoMovimiento={() => setOpenModal(true)}
-/>
+      {summaryLoading && (
+        <p className={styles.loading}>Cargando estado del negocio...</p>
+      )}
+
+      {summaryError && (
+        <p className={styles.loading} role="alert">
+          {summaryError}
+        </p>
+      )}
+
+      <ActionsSection onNuevoMovimiento={() => setOpenModal(true)} />
 
       {/* TABLA */}
-      <TransactionsSection
-  transactions={filteredTransactions}
-  onDelete={handleEliminar}
-  formatCurrency={formatCurrency}
-  formatDate={formatDate}
-/>
+      {loading ? (
+        <p className={styles.loading}>Cargando movimientos...</p>
+      ) : (
+        <TransactionsSection
+          transactions={filteredTransactions}
+          onDelete={handleEliminar}
+          formatCurrency={formatCurrency}
+          formatDate={formatDate}
+        />
+      )}
 
       {/* MODAL */}
       {openModal && (

@@ -1,14 +1,20 @@
 import styles from "./AnalyticsSection.module.css";
 
-import BalanceChart from "../BalanceChart/BalanceChart";
+import BalanceChart, {
+  type BalanceData,
+} from "../BalanceChart/BalanceChart";
 import RecentActivity from "../RecentActivity/RecentActivity";
+import type { Transaction } from "../../types/Transaction";
 
 interface Props {
-  balanceData: any;
+  balanceData: BalanceData[];
   incomeTotal: number;
   expenseTotal: number;
   balance: number;
   insight: string;
+  transactions: Transaction[];
+  formatCurrency: (value: number) => string;
+  formatDate: (date: string) => string;
 }
 
 export default function AnalyticsSection({
@@ -17,6 +23,9 @@ export default function AnalyticsSection({
   expenseTotal,
   balance,
   insight,
+  transactions,
+  formatCurrency,
+  formatDate,
 }: Props) {
   return (
     <section className={styles.container}>
@@ -35,7 +44,11 @@ export default function AnalyticsSection({
       </div>
 
       <div className={styles.activity}>
-        <RecentActivity />
+        <RecentActivity
+          transactions={transactions}
+          formatCurrency={formatCurrency}
+          formatDate={formatDate}
+        />
       </div>
     </section>
   );
