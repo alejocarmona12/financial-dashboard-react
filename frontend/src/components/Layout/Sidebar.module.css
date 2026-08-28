@@ -1,0 +1,14 @@
+.sidebar { position: sticky; top: 0; display: flex; width: 252px; height: 100vh; flex: 0 0 252px; flex-direction: column; padding: 24px 14px 16px; color: #dce6ff; background: linear-gradient(180deg, #182b70 0%, #101d54 100%); box-shadow: 12px 0 30px rgba(15, 23, 42, .12); z-index: 2; }
+.brand { display: flex; align-items: center; gap: 11px; padding: 6px 10px 27px; color: #fff; font-size: 20px; font-weight: 800; letter-spacing: -.03em; text-decoration: none; }
+.brandMark { display: grid; width: 32px; height: 32px; place-items: center; background: linear-gradient(135deg, #35d3ff, #7069ff); border-radius: 10px; box-shadow: 0 7px 16px rgba(51, 211, 255, .25); }
+.caption { padding: 0 11px 10px; color: rgba(220, 230, 255, .54); font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.navigation { display: grid; gap: 5px; }
+.link { display: flex; align-items: center; gap: 12px; padding: 12px 12px; color: rgba(239, 244, 255, .76); border-radius: 10px; font-size: 14px; font-weight: 650; text-decoration: none; transition: .18s ease; }
+.link:hover { color: #fff; background: rgba(255, 255, 255, .09); }
+.active { color: #172458; background: #fff; box-shadow: 0 8px 20px rgba(3, 10, 38, .2); }
+.footer { display: grid; gap: 12px; margin-top: auto; }
+.help { display: grid; gap: 3px; padding: 12px; color: rgba(255, 255, 255, .75); background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .1); border-radius: 11px; font-size: 11px; }
+.help strong { color: #6ee7b7; font-size: 12px; }
+.logout { display: flex; align-items: center; gap: 10px; padding: 11px 12px; color: rgba(255, 255, 255, .78); background: transparent; border: 0; border-radius: 9px; cursor: pointer; font: inherit; font-size: 13px; font-weight: 650; text-align: left; }
+.logout:hover { color: #fff; background: rgba(255, 255, 255, .08); }
+@media (max-width: 760px) { .sidebar { position: fixed; top: auto; right: 0; bottom: 0; left: 0; width: auto; height: 64px; flex-direction: row; align-items: center; padding: 7px 8px; background: #142461; box-shadow: 0 -8px 24px rgba(15, 23, 42, .2); } .brand, .caption, .footer { display: none; } .navigation { display: grid; width: 100%; grid-template-columns: repeat(5, 1fr); gap: 3px; } .link { justify-content: center; padding: 9px 2px; } .link span { display: none; } .active { color: #172458; } }

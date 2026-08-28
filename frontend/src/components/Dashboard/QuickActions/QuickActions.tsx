@@ -40,7 +40,7 @@ export default function QuickActions({
 
         <button
           className={styles.card}
-          onClick={() => navigate("/facturas")}
+          onClick={() => navigate("/facturacion")}
         >
           <Receipt size={34} />
           <span>Facturación</span>

@@ -8,6 +8,8 @@ export interface ITransaction extends Document {
   description?: string;
   date: string;
   hasIVA: boolean;
+  sourceType: "manual" | "orden" | "combustible";
+  sourceId?: mongoose.Types.ObjectId;
 }
 
 const transactionSchema = new Schema(
@@ -48,6 +50,18 @@ const transactionSchema = new Schema(
     hasIVA: {
       type: Boolean,
       default: false,
+    },
+
+    // Identifica los movimientos creados desde otro módulo para que no se
+    // contabilicen otra vez al sumar órdenes o cargas de combustible.
+    sourceType: {
+      type: String,
+      enum: ["manual", "orden", "combustible"],
+      default: "manual",
+    },
+
+    sourceId: {
+      type: Schema.Types.ObjectId,
     },
   },
   {

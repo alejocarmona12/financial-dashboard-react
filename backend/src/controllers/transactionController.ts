@@ -33,7 +33,11 @@ export const crearTransaccion = async (
   res: Response
 ) => {
   try {
-    const transaccion = new Transaction(req.body);
+    const transaccion = new Transaction({
+      ...req.body,
+      sourceType: "manual",
+      sourceId: undefined,
+    });
 
     await transaccion.save();
 
@@ -56,20 +60,25 @@ export const actualizarTransaccion = async (
   res: Response
 ) => {
   try {
-    const transaccion =
-      await Transaction.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        {
-          new: true,
-        }
-      );
+    const existente = await Transaction.findById(req.params.id);
 
-    if (!transaccion) {
+    if (!existente) {
       return res.status(404).json({
         message: "Transacción no encontrada",
       });
     }
+
+    if (existente.sourceType && existente.sourceType !== "manual") {
+      return res.status(400).json({
+        message: "Los movimientos vinculados se editan desde su módulo de origen.",
+      });
+    }
+
+    const { sourceId: _sourceId, sourceType: _sourceType, ...datos } = req.body;
+    const transaccion = await Transaction.findByIdAndUpdate(req.params.id, datos, {
+      new: true,
+      runValidators: true,
+    });
 
     res.json(transaccion);
   } catch (error) {
@@ -91,13 +100,21 @@ export const eliminarTransaccion = async (
 ) => {
   try {
     const transaccion =
-      await Transaction.findByIdAndDelete(req.params.id);
+      await Transaction.findById(req.params.id);
 
     if (!transaccion) {
       return res.status(404).json({
         message: "Transacción no encontrada",
       });
     }
+
+    if (transaccion.sourceType && transaccion.sourceType !== "manual") {
+      return res.status(400).json({
+        message: "Los movimientos vinculados se eliminan desde su módulo de origen.",
+      });
+    }
+
+    await transaccion.deleteOne();
 
     res.json({
       message: "Transacción eliminada correctamente",

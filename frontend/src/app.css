@@ -1,7 +1,10 @@
-/* RESETEO GLOBAL PARA DEJAR LA PANTALLA QUIETA */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+
+body { min-width: 320px; color: var(--text-main); background: var(--bg-main); }
+button, input, select, textarea { font: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(38, 99, 235, .26); outline-offset: 2px; }

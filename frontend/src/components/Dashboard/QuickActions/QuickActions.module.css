@@ -1,8 +1,8 @@
 .container { margin: 0; }
 .title { margin-bottom: 14px; color: var(--text-main); font-size: 18px; font-weight: 700; }
 .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-.card { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 74px; padding: 14px; color: var(--text-light); text-align: left; background: var(--bg-card); border: var(--border-glow); border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition); }
-.card:hover { border-color: rgba(34, 211, 238, .45); background: var(--bg-hover); transform: translateY(-2px); }
+.card { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 74px; padding: 14px; color: var(--text-light); text-align: left; background: var(--bg-card); border: var(--border-glow); border-radius: 12px; box-shadow: var(--shadow-sm); cursor: pointer; transition: var(--transition); }
+.card:hover { border-color: rgba(49, 86, 201, .35); background: var(--bg-hover); box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .card svg { flex-shrink: 0; color: var(--primary); }
 .card span { font-size: 14px; font-weight: 600; line-height: 1.35; }
 @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, 1fr); } }

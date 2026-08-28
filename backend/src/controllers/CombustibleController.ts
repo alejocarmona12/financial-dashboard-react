@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
 import Combustible from "../Models/Combustible";
+import {
+  deleteSourceMovement,
+  syncCombustibleMovement,
+} from "../services/financialMovementService";
 
 // ===============================
 // OBTENER TODAS LAS CARGAS
@@ -65,6 +69,7 @@ export const crearCarga = async (
     const nuevaCarga = new Combustible(req.body);
 
     await nuevaCarga.save();
+    await syncCombustibleMovement(nuevaCarga);
 
     res.status(201).json(nuevaCarga);
   } catch (error) {
@@ -99,6 +104,8 @@ export const actualizarCarga = async (
       });
     }
 
+    await syncCombustibleMovement(carga);
+
     res.json(carga);
   } catch (error) {
     console.error(error);
@@ -127,6 +134,8 @@ export const eliminarCarga = async (
         message: "Carga no encontrada.",
       });
     }
+
+    await deleteSourceMovement("combustible", carga._id);
 
     res.json({
       message: "Carga eliminada correctamente.",

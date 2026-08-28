@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(
   "/uploads",
-  express.static(path.join(process.cwd(), "src/uploads"))
+  express.static(path.join(process.cwd(), "uploads"))
 );
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);

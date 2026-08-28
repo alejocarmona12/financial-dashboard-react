@@ -4,39 +4,39 @@
         COLORES
     ========================= */
   
-    --bg-main: #0b1220;
-    --bg-card: #111c2e;
-    --bg-input: #0f1a2b;
-    --bg-hover: #18263a;
-    --bg-table-header: #16243a;
+    --bg-main: #f4f7fc;
+    --bg-card: #ffffff;
+    --bg-input: #ffffff;
+    --bg-hover: #f4f7ff;
+    --bg-table-header: #f7f9fd;
   
-    --text-main: #ffffff;
-    --text-muted: #93a4ba;
-    --text-light: #cbd5e1;
+    --text-main: #172554;
+    --text-muted: #71809b;
+    --text-light: #34435f;
   
-    --primary: #22d3ee;
-    --primary-hover: #06b6d4;
+    --primary: #3156c9;
+    --primary-hover: #2547af;
   
-    --success: #34d399;
-    --danger: #f87171;
-    --info: #60a5fa;
-    --warning: #fbbf24;
+    --success: #1ca76f;
+    --danger: #e35d6a;
+    --info: #4f7ff0;
+    --warning: #e7a720;
   
     /* =========================
         BORDES
     ========================= */
   
-    --border: rgba(148,163,184,.16);
+    --border: rgba(77, 98, 137, .14);
     --border-glow: 1px solid var(--border);
   
     /* =========================
         SHADOWS
     ========================= */
   
-    --shadow-sm: 0 4px 12px rgba(2,6,23,.18);
-    --shadow-md: 0 12px 24px rgba(2,6,23,.2);
+    --shadow-sm: 0 4px 12px rgba(30, 51, 87, .07);
+    --shadow-md: 0 12px 24px rgba(30, 51, 87, .08);
     --shadow-card: var(--shadow-md);
-    --shadow-lg: 0 18px 32px rgba(2,6,23,.28);
+    --shadow-lg: 0 18px 32px rgba(30, 51, 87, .14);
   
     /* =========================
         RADIUS

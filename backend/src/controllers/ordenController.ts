@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
 import Orden from "../Models/Orden";
+import {
+  deleteSourceMovement,
+  syncOrdenMovement,
+} from "../services/financialMovementService";
 
 const fechaValida = (fecha: unknown) =>
   typeof fecha === "string" &&
@@ -37,6 +41,7 @@ export const crearOrden = async (
     const nuevaOrden = new Orden(datos);
 
     await nuevaOrden.save();
+    await syncOrdenMovement(nuevaOrden);
 
     res.status(201).json({
       message: "Orden creada correctamente",
@@ -121,6 +126,8 @@ export const actualizarOrden = async (
       });
     }
 
+    await syncOrdenMovement(ordenActualizada);
+
     res.json({
       message: "Orden actualizada correctamente",
       orden: ordenActualizada,
@@ -173,6 +180,7 @@ export const subirFactura = async (
     orden.estado = "Facturada";
 
     await orden.save();
+    await syncOrdenMovement(orden);
 
     res.json({
       message:
@@ -207,6 +215,8 @@ export const eliminarOrden = async (
         message: "Orden no encontrada",
       });
     }
+
+    await deleteSourceMovement("orden", orden._id);
 
     res.json({
       message:

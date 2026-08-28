@@ -10,14 +10,13 @@ import {
 import styles from "./ModalDetalleOrden.module.css";
 import type { Orden } from "../../types/Orden";
 import EstadoOrden from "../EstadoOrden/EstadoOrden";
+import { UPLOADS_URL } from "../../services/Api";
 
 interface Props {
   open: boolean;
   orden: Orden | null;
   onClose: () => void;
 }
-
-const API = "http://localhost:4000/uploads";
 
 export default function ModalDetalleOrden({
   open,
@@ -87,7 +86,7 @@ export default function ModalDetalleOrden({
               <button
                 onClick={() =>
                   window.open(
-                    `${API}/${orden.archivo}`,
+                    `${UPLOADS_URL}/${orden.archivo}`,
                     "_blank"
                   )
                 }
@@ -109,7 +108,7 @@ export default function ModalDetalleOrden({
               <button
                 onClick={() =>
                   window.open(
-                    `${API}/${orden.factura}`,
+                    `${UPLOADS_URL}/${orden.factura}`,
                     "_blank"
                   )
                 }

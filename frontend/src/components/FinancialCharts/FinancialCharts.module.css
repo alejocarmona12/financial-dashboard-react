@@ -1,0 +1,4 @@
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.card, .empty { min-height: 330px; padding: 22px; background: var(--bg-card); border: var(--border-glow); border-radius: 14px; box-shadow: var(--shadow-sm); }
+.wide { grid-column: span 2; }.heading span { color: var(--text-muted); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }.heading h2 { margin-top: 4px; color: var(--text-main); font-size: 18px; }.chart { height: 255px; margin-top: 12px; }.empty { display: grid; min-height: 160px; place-items: center; color: var(--text-muted); text-align: center; }
+@media (max-width: 1000px) { .grid { grid-template-columns: 1fr; }.wide { grid-column: auto; } }

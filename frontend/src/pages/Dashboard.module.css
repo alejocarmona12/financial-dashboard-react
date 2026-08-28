@@ -2,9 +2,9 @@
 
 .dashboard {
   min-height: 100vh;
-  max-width: 1600px;
+  max-width: 1680px;
   margin: 0 auto;
-  padding: 32px clamp(16px, 3vw, 48px) 48px;
+  padding: 30px clamp(20px, 3vw, 48px) 48px;
   background: var(--bg-main);
   display: flex;
   flex-direction: column;
@@ -45,7 +45,6 @@
 }
 
 .periodControl select,
-.logout,
 .newMovement {
   min-height: 42px;
   border: 1px solid var(--border);
@@ -57,15 +56,13 @@
   transition: var(--transition);
 }
 
-.periodControl select,
-.logout {
+.periodControl select {
   padding: 0 13px;
   color: var(--text-light);
   background: var(--bg-card);
 }
 
-.periodControl select:focus,
-.logout:hover {
+.periodControl select:focus {
   border-color: var(--primary);
   outline: none;
 }
@@ -75,7 +72,7 @@
   align-items: center;
   gap: 8px;
   padding: 0 15px;
-  color: #06212a;
+  color: #fff;
   background: var(--primary);
   border-color: var(--primary);
 }

@@ -51,16 +51,22 @@ export default function TransactionsSection({
                     {t.type === "income" ? "+" : "−"}{formatCurrency(t.amount)}
                   </td>
                   <td>
-                    <button
-                      type="button"
-                      className={styles.deleteButton}
-                      aria-label={`Eliminar ${t.title}`}
-                      onClick={() => {
-                        if (t._id) onDelete(t._id);
-                      }}
-                    >
-                      🗑️
-                    </button>
+                    {t.sourceType && t.sourceType !== "manual" ? (
+                      <span title="Este movimiento se administra desde su módulo de origen">
+                        Vinculado
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        className={styles.deleteButton}
+                        aria-label={`Eliminar ${t.title}`}
+                        onClick={() => {
+                          if (t._id) onDelete(t._id);
+                        }}
+                      >
+                        🗑️
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))

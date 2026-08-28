@@ -371,3 +371,18 @@
       font-size: 30px;
     }
   }
+
+/* SaaS visual system */
+.container { max-width: 1680px; min-height: 100%; margin: 0 auto; padding: 30px clamp(20px, 3vw, 48px) 48px; }
+.backButton { margin-bottom: 18px; border-color: var(--border); border-radius: 9px; color: var(--text-muted); }
+.backButton:hover { background: var(--bg-hover); box-shadow: none; }
+.header { gap: 24px; margin-bottom: 26px; padding-bottom: 22px; border-bottom-color: var(--border); }
+.title { font-size: clamp(28px, 3vw, 36px); letter-spacing: -.04em; }
+.newButton { min-width: auto; padding: 13px 18px; background: var(--primary); border-radius: 10px; color: #fff; box-shadow: 0 10px 20px rgba(49, 86, 201, .2); }
+.newButton:hover { box-shadow: 0 12px 25px rgba(49, 86, 201, .28); }
+.cards { gap: 14px; margin-bottom: 26px; }
+.filters { padding: 14px; gap: 12px; margin-bottom: 18px; background: var(--bg-card); border: var(--border-glow); border-radius: 12px; box-shadow: var(--shadow-sm); }
+.search input, .filters select { border-color: var(--border); border-radius: 9px; }
+.search input:focus, .filters select:focus { box-shadow: 0 0 0 3px rgba(49, 86, 201, .12); }
+.clear:hover { color: var(--primary); background: var(--bg-hover); }
+.spinner { border-color: rgba(49, 86, 201, .16); border-top-color: var(--primary); }

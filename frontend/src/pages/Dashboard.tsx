@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 
 import type { NewTransaction, Transaction } from "../types/Transaction";
@@ -28,13 +27,6 @@ import TransactionsSection from "../components/Dashboard/TransactionsSection/Tra
 
 
 export default function Dashboard() {
-  const navigate = useNavigate();
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-  };
-
   const [selectedMonth, setSelectedMonth] = useState("all");
   const [openModal, setOpenModal] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -58,12 +50,12 @@ const cargarTransacciones = async () => {
   }
 };
 
-const cargarResumenDashboard = async () => {
+const cargarResumenDashboard = async (month: string) => {
   try {
     setSummaryLoading(true);
     setSummaryError("");
 
-    const data = await obtenerResumenDashboard();
+    const data = await obtenerResumenDashboard(month);
 
     setDashboardSummary(data);
   } catch (error) {
@@ -76,8 +68,11 @@ const cargarResumenDashboard = async () => {
 
 useEffect(() => {
   cargarTransacciones();
-  cargarResumenDashboard();
 }, []);
+
+useEffect(() => {
+  cargarResumenDashboard(selectedMonth);
+}, [selectedMonth]);
 
 
 const guardarTransaccion = async (
@@ -88,7 +83,7 @@ const guardarTransaccion = async (
 
     await Promise.all([
       cargarTransacciones(),
-      cargarResumenDashboard(),
+      cargarResumenDashboard(selectedMonth),
     ]);
 
     setOpenModal(false);
@@ -105,7 +100,7 @@ const handleEliminar = async (
 
     await Promise.all([
       cargarTransacciones(),
-      cargarResumenDashboard(),
+      cargarResumenDashboard(selectedMonth),
     ]);
   } catch (error) {
     console.error(error);
@@ -116,11 +111,20 @@ const handleEliminar = async (
     filteredTransactions,
     incomeTotal,
     expenseTotal,
-    balance,
     ivaTotal,
-    insight,
-    balanceData,
   } = useDashboardCalculations(transactions, selectedMonth);
+
+  const ingresos = dashboardSummary?.ingresos ?? incomeTotal;
+  const gastos = dashboardSummary?.gastos ?? expenseTotal;
+  const balance = dashboardSummary?.balance ?? incomeTotal - expenseTotal;
+  const balanceData = [
+    { name: "Ingresos", value: ingresos },
+    { name: "Gastos", value: gastos },
+  ];
+  const insight =
+    balance >= 0
+      ? "Buen trabajo manteniendo tus ingresos por encima de los gastos."
+      : "Atención: los gastos superan los ingresos.";
 
   const formatCurrency = (value: number) =>
     value.toLocaleString("es-AR", {
@@ -176,39 +180,26 @@ const handleEliminar = async (
             Nuevo movimiento
           </button>
 
-          <button className={styles.logout} onClick={logout}>
-            Cerrar sesión
-          </button>
         </div>
       </div>
 
       <SummaryCards
-        ingresos={incomeTotal}
-        gastos={expenseTotal}
+        ingresos={ingresos}
+        gastos={gastos}
         balance={balance}
         iva={ivaTotal}
       />
 
       <AnalyticsSection
         balanceData={balanceData}
-        incomeTotal={incomeTotal}
-        expenseTotal={expenseTotal}
+        incomeTotal={ingresos}
+        expenseTotal={gastos}
         balance={balance}
         insight={insight}
         transactions={filteredTransactions}
         formatCurrency={formatCurrency}
         formatDate={formatDate}
       />
-      <BusinessSection
-        balance={balance}
-        ingresos={incomeTotal}
-        gastos={expenseTotal}
-        facturasPendientes={dashboardSummary?.facturasPendientes ?? 0}
-        ordenesPendientes={dashboardSummary?.ordenesPendientes ?? 0}
-        combustibleMes={dashboardSummary?.combustibleMes ?? 0}
-        cobradoMes={dashboardSummary?.cobradoMes ?? 0}
-      />
-
       {summaryLoading && (
         <p className={styles.loading}>Cargando estado del negocio...</p>
       )}
@@ -217,6 +208,18 @@ const handleEliminar = async (
         <p className={styles.loading} role="alert">
           {summaryError}
         </p>
+      )}
+
+      {dashboardSummary && (
+        <BusinessSection
+          balance={balance}
+          ingresos={dashboardSummary.ingresos}
+          gastos={dashboardSummary.gastos}
+          facturasPendientes={dashboardSummary.facturasPendientes}
+          ordenesPendientes={dashboardSummary.ordenesPendientes}
+          combustibleMes={dashboardSummary.combustibleMes}
+          cobradoMes={dashboardSummary.cobradoMes}
+        />
       )}
 
       <ActionsSection onNuevoMovimiento={() => setOpenModal(true)} />

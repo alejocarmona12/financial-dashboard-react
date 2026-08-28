@@ -14,6 +14,7 @@ import DetalleFacturas from "./pages/Detalle-factura";
 import Register from "./pages/Register";
 import FuelExpenses from "./pages/Combustible";
 import OrdenesCompra from "./pages/OrdenesCompra";
+import AppShell from "./components/Layout/AppShell";
 
 
 // Componente protector dinámico que lee el almacenamiento en cada navegación
@@ -35,11 +36,13 @@ function App() {
 
         {/* RUTAS PROTEGIDAS (Agrupadas dentro del protector) */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/facturacion" element={<Facturacion />} />
-          <Route path="/facturas" element={<DetalleFacturas />} />
-          <Route path="/gastos-combustible" element={<FuelExpenses />} />
-          <Route path="/ordenes-compra" element={<OrdenesCompra />} />
+          <Route element={<AppShell />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/facturacion" element={<Facturacion />} />
+            <Route path="/facturas" element={<DetalleFacturas />} />
+            <Route path="/gastos-combustible" element={<FuelExpenses />} />
+            <Route path="/ordenes-compra" element={<OrdenesCompra />} />
+          </Route>
         </Route>
 
         {/* REDIRECCIÓN POR DEFECTO */}

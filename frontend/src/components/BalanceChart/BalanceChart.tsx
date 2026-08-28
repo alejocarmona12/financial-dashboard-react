@@ -69,9 +69,10 @@ import {
   
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#1b1d22",
-                    border: "1px solid rgba(255,255,255,.08)",
-                    borderRadius: 12,
+                    backgroundColor: "#ffffff",
+                    border: "1px solid rgba(77, 98, 137, .16)",
+                    borderRadius: 10,
+                    boxShadow: "0 12px 24px rgba(30, 51, 87, .12)",
                   }}
                 />
   

@@ -14,6 +14,8 @@ export interface Transaction {
   date: string;
 
   hasIVA: boolean;
+
+  sourceType?: "manual" | "orden" | "combustible";
 }
 
 export type NewTransaction = Omit<Transaction, "_id">;
